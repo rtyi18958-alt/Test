@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEO_STRIKE // Официальный сайт игры</title>
+    <title>NEO_STRIKE // Игровой портал</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,7 +42,7 @@
             min-height: 100vh;
         }
 
-        /* Анимированный фоновый градиент с туманностями */
+        /* Анимированный фоновый градиент */
         .bg-animated {
             position: fixed;
             top: 0;
@@ -66,17 +66,8 @@
             animation: floatOrb 25s infinite alternate ease-in-out;
         }
 
-        .orb-1 {
-            top: 10%;
-            left: 20%;
-        }
-
-        .orb-2 {
-            bottom: 15%;
-            right: 15%;
-            animation-duration: 30s;
-            animation-delay: -5s;
-        }
+        .orb-1 { top: 10%; left: 20%; }
+        .orb-2 { bottom: 15%; right: 15%; animation-duration: 30s; animation-delay: -5s; }
 
         @keyframes floatOrb {
             0% { transform: translate(0, 0) scale(1); }
@@ -84,7 +75,7 @@
             100% { transform: translate(-50px, 120px) scale(0.9); }
         }
 
-        /* Общие стили для стекол (Glassmorphism) */
+        /* Glassmorphism */
         .glass-panel {
             background: var(--bg-card);
             backdrop-filter: blur(14px);
@@ -100,12 +91,32 @@
             box-shadow: 0 8px 32px 0 rgba(255, 7, 58, 0.15);
         }
 
-        /* Ссылки и кнопки */
+        /* Инпуты */
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            transition: all var(--transition-speed);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--neon-red);
+            box-shadow: 0 0 10px var(--neon-red-glow);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
         a {
             color: inherit;
             text-decoration: none;
         }
 
+        /* Кнопки */
         .btn-neon {
             display: inline-flex;
             align-items: center;
@@ -122,7 +133,6 @@
             cursor: pointer;
             transition: all var(--transition-speed) ease;
             box-shadow: 0 0 10px rgba(255, 7, 58, 0.2);
-            backdrop-filter: blur(4px);
         }
 
         .btn-neon:hover {
@@ -137,14 +147,31 @@
             border-radius: 6px;
         }
 
-        /* Контейнер */
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
-        /* Шапка сайта */
+        /* Шапка */
         header {
             position: fixed;
             top: 0;
@@ -165,11 +192,6 @@
             align-items: center;
             justify-content: space-between;
             height: 80px;
-            transition: height var(--transition-speed);
-        }
-
-        header.scrolled .nav-container {
-            height: 65px;
         }
 
         .logo {
@@ -190,11 +212,11 @@
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 32px;
+            gap: 24px;
         }
 
         .nav-link {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -203,9 +225,7 @@
             transition: color var(--transition-speed);
         }
 
-        .nav-link:hover {
-            color: var(--neon-red);
-        }
+        .nav-link:hover { color: var(--neon-red); }
 
         .nav-link::after {
             content: '';
@@ -216,11 +236,14 @@
             height: 2px;
             background-color: var(--neon-red);
             transition: width var(--transition-speed) ease;
-            box-shadow: 0 0 8px var(--neon-red);
         }
 
-        .nav-link:hover::after {
-            width: 100%;
+        .nav-link:hover::after { width: 100%; }
+
+        .header-auth {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
         /* Мобильное меню */
@@ -252,7 +275,6 @@
             padding-top: 100px;
             padding-bottom: 60px;
             text-align: center;
-            position: relative;
         }
 
         .hero-content {
@@ -267,7 +289,6 @@
             font-size: clamp(3rem, 8vw, 6rem);
             font-weight: 900;
             text-transform: uppercase;
-            line-height: 1;
             letter-spacing: -1px;
             margin-bottom: 16px;
             background: linear-gradient(180deg, #fff 0%, #a0a0aa 100%);
@@ -284,9 +305,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: none;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 7, 58, 0.5), 0 0 40px rgba(255, 7, 58, 0.2);
+            text-shadow: 0 0 20px rgba(255, 7, 58, 0.5);
         }
 
         .hero-subtitle {
@@ -294,43 +313,16 @@
             font-weight: 300;
             color: var(--text-muted);
             margin-bottom: 40px;
-            max-width: 600px;
-            line-height: 1.5;
-        }
-
-        .hero-subtitle strong {
-            color: var(--neon-red);
-            font-weight: 600;
         }
 
         .hero .btn-neon {
             font-size: 1.2rem;
             padding: 18px 45px;
-            border-radius: 10px;
             margin-bottom: 24px;
         }
 
-        .platforms {
-            display: flex;
-            gap: 20px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .platforms span {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .platforms i {
-            color: var(--text-main);
-        }
-
-        /* Общие стили секций */
-        section {
-            padding: 100px 0;
-        }
+        /* Общие секции */
+        section { padding: 100px 0; }
 
         .section-title {
             font-family: var(--font-display);
@@ -340,7 +332,6 @@
             margin-bottom: 60px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            position: relative;
         }
 
         .section-title span {
@@ -348,7 +339,7 @@
             text-shadow: 0 0 10px var(--neon-red-glow);
         }
 
-        /* Описание игры (About) */
+        /* Раздел: Особенности */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -374,15 +365,6 @@
             border: 1px solid rgba(255, 7, 58, 0.3);
             font-size: 1.8rem;
             color: var(--neon-red);
-            box-shadow: 0 0 15px rgba(255, 7, 58, 0.15);
-            transition: transform var(--transition-speed);
-        }
-
-        .feature-card:hover .feature-icon-wrapper {
-            transform: scale(1.1) translateZ(20px);
-            background: var(--neon-red);
-            color: #fff;
-            box-shadow: 0 0 20px var(--neon-red-glow);
         }
 
         .feature-card h3 {
@@ -390,7 +372,6 @@
             font-size: 1.4rem;
             margin-bottom: 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .feature-card p {
@@ -399,31 +380,202 @@
             line-height: 1.6;
         }
 
-        /* Системные требования (Requirements) */
+        /* ================= ДИНАМИЧЕСКИЙ ПРОФИЛЬ ИГРОКА ================= */
+        .profile-section {
+            position: relative;
+        }
+
+        /* Состояние: Не авторизован (размытость и заглушка) */
+        .profile-locked-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(7, 7, 9, 0.4);
+            backdrop-filter: blur(12px);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            text-align: center;
+            padding: 40px;
+            transition: opacity var(--transition-speed) ease;
+        }
+
+        .profile-locked-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .profile-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            opacity: 0.2; /* размытость когда не вошел */
+            transition: opacity var(--transition-speed);
+        }
+
+        .profile-wrapper.unlocked {
+            opacity: 1;
+        }
+
+        .profile-card {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-avatar-container {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid var(--neon-red);
+            box-shadow: 0 0 15px var(--neon-red-glow);
+            overflow: hidden;
+            background: #121218;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-rank {
+            padding: 4px 12px;
+            background: rgba(255, 7, 58, 0.15);
+            border: 1px solid var(--neon-red);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            gap: 16px;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .stat-val {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--neon-red);
+        }
+
+        .stat-lbl {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* Настройки профиля */
+        .settings-card {
+            padding: 40px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* Выбор аватарки */
+        .avatar-picker {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .avatar-option {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            opacity: 0.6;
+        }
+
+        .avatar-option:hover, .avatar-option.selected {
+            border-color: var(--neon-red);
+            box-shadow: 0 0 8px var(--neon-red);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        /* Уровень (Опыт) */
+        .xp-bar-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .xp-bar-fill {
+            width: 65%;
+            height: 100%;
+            background: var(--neon-red);
+            box-shadow: 0 0 8px var(--neon-red);
+        }
+
+        /* ================= СИСТЕМНЫЕ ТРЕБОВАНИЯ ================= */
         .req-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
         }
 
-        .req-panel {
-            padding: 40px;
-        }
+        .req-panel { padding: 40px; }
 
         .req-panel h3 {
             font-family: var(--font-display);
             font-size: 1.6rem;
             margin-bottom: 30px;
             text-transform: uppercase;
-            letter-spacing: 1px;
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .req-panel h3 i {
-            color: var(--neon-red);
-        }
+        .req-panel h3 i { color: var(--neon-red); }
 
         .req-list {
             list-style: none;
@@ -440,64 +592,9 @@
             font-size: 0.95rem;
         }
 
-        .req-item span:first-child {
-            color: var(--text-muted);
-            font-weight: 500;
-        }
+        .req-item span:first-child { color: var(--text-muted); }
 
-        .req-item span:last-child {
-            text-align: right;
-            font-weight: 600;
-        }
-
-        /* Подвал (Footer) */
-        footer {
-            background-color: #040406;
-            border-top: 1px solid rgba(255, 7, 58, 0.1);
-            padding: 40px 0;
-            font-size: 0.9rem;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 24px;
-            text-align: center;
-        }
-
-        .socials {
-            display: flex;
-            gap: 20px;
-        }
-
-        .social-link {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 1.2rem;
-            transition: all var(--transition-speed);
-        }
-
-        .social-link:hover {
-            color: var(--neon-red);
-            border-color: var(--border-glass-hover);
-            background: rgba(255, 7, 58, 0.05);
-            box-shadow: 0 0 15px rgba(255, 7, 58, 0.1);
-            transform: translateY(-3px);
-        }
-
-        .copyright {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-
-        /* Модальное окно */
+        /* ================= МОДАЛЬНЫЕ ОКНА ================= */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -523,10 +620,9 @@
 
         .modal-content {
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
             padding: 40px;
             position: relative;
-            text-align: center;
             transform: translateY(-20px);
             transition: transform 0.4s ease;
         }
@@ -547,45 +643,53 @@
             transition: color var(--transition-speed);
         }
 
-        .modal-close:hover {
-            color: var(--neon-red);
+        .modal-close:hover { color: var(--neon-red); }
+
+        /* Табы для окон входа / регистрации */
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 10px;
         }
 
-        .modal-icon {
-            font-size: 3rem;
-            color: var(--neon-red);
-            margin-bottom: 20px;
-            animation: pulseGlow 2s infinite ease-in-out;
-        }
-
-        @keyframes pulseGlow {
-            0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--neon-red)); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 12px var(--neon-red)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 2px var(--neon-red)); }
-        }
-
-        .modal-title {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-
-        .modal-status {
+        .auth-tab {
+            background: none;
+            border: none;
             color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 30px;
-            min-height: 24px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 4px 12px;
+            transition: all var(--transition-speed);
         }
 
+        .auth-tab.active {
+            color: var(--neon-red);
+            text-shadow: 0 0 8px var(--neon-red-glow);
+        }
+
+        .auth-form {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .auth-form.active {
+            display: flex;
+        }
+
+        /* Загрузка */
         .progress-bar-container {
             width: 100%;
             height: 6px;
             background-color: rgba(255, 255, 255, 0.05);
             border-radius: 3px;
             overflow: hidden;
-            margin-bottom: 16px;
-            position: relative;
+            margin: 20px 0;
         }
 
         .progress-bar-fill {
@@ -596,14 +700,66 @@
             transition: width 0.15s linear;
         }
 
-        .modal-btn-action {
-            display: none;
-            margin-top: 16px;
+        /* Уведомление на экране */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: -300px;
+            background: rgba(18, 18, 24, 0.9);
+            border-left: 4px solid var(--neon-red);
+            padding: 16px 24px;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.show {
+            right: 24px;
+        }
+
+        /* Подвал */
+        footer {
+            background-color: #040406;
+            border-top: 1px solid rgba(255, 7, 58, 0.1);
+            padding: 40px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            text-align: center;
+        }
+
+        .socials { display: flex; gap: 20px; }
+
+        .social-link {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 1.2rem;
+            transition: all var(--transition-speed);
+        }
+
+        .social-link:hover {
+            color: var(--neon-red);
+            border-color: var(--border-glass-hover);
+            transform: translateY(-3px);
         }
 
         /* Адаптивность */
         @media (max-width: 992px) {
-            .req-grid {
+            .req-grid, .profile-wrapper {
                 grid-template-columns: 1fr;
             }
         }
@@ -621,47 +777,23 @@
                 justify-content: center;
                 gap: 40px;
                 transition: left var(--transition-speed) ease;
-                border-top: 1px solid rgba(255, 7, 58, 0.1);
             }
 
-            .nav-menu.active {
-                left: 0;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            /* Анимация иконки бургера */
-            .menu-toggle.active span:nth-child(1) {
-                transform: translateY(9px) rotate(45deg);
-            }
-            .menu-toggle.active span:nth-child(2) {
-                opacity: 0;
-            }
-            .menu-toggle.active span:nth-child(3) {
-                transform: translateY(-9px) rotate(-45deg);
-            }
-
-            .hero {
-                padding-top: 120px;
-            }
-
-            .req-panel {
-                padding: 30px 20px;
-            }
+            .nav-menu.active { left: 0; }
+            .menu-toggle { display: flex; }
+            .form-row { grid-template-columns: 1fr; gap: 16px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Фоновые визуальные эффекты -->
+    <!-- Фоновые эффекты -->
     <div class="bg-animated">
         <div class="bg-glow-orb orb-1"></div>
         <div class="bg-glow-orb orb-2"></div>
     </div>
 
-    <!-- Шапка сайта -->
+    <!-- Шапка -->
     <header id="header">
         <div class="container nav-container">
             <a href="#" class="logo">
@@ -671,8 +803,14 @@
             <nav class="nav-menu" id="navMenu">
                 <a href="#about" class="nav-link">Об игре</a>
                 <a href="#features" class="nav-link">Особенности</a>
-                <a href="#requirements" class="nav-link">Системные требования</a>
-                <button class="btn-neon btn-neon-small download-trigger">Скачать</button>
+                <a href="#profile" class="nav-link">Профиль</a>
+                <a href="#requirements" class="nav-link">Требования</a>
+                
+                <!-- Кнопка авторизации в меню -->
+                <div class="header-auth" id="headerAuthContainer">
+                    <button class="btn-secondary btn-neon-small" id="headerLoginBtn">Войти</button>
+                    <button class="btn-neon btn-neon-small download-trigger">Скачать</button>
+                </div>
             </nav>
 
             <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню">
@@ -683,136 +821,256 @@
         </div>
     </header>
 
-    <!-- Главный экран (Hero) -->
+    <!-- Главный экран -->
     <section class="hero" id="hero">
         <div class="container hero-content">
             <h1 class="hero-title">NEO_STRIKE</h1>
-            <p class="hero-subtitle">Высокотехнологичный шутер нового поколения. Сражайтесь в мире неонового будущего, где скорость реакции решает <strong>абсолютно все</strong>.</p>
+            <p class="hero-subtitle">Высокотехнологичный тактический шутер. Создайте профиль агента и завоюйте лидерство.</p>
             <button class="btn-neon download-trigger">
-                <i class="fa-solid fa-download" style="margin-right: 10px;"></i> Скачать игру
+                <i class="fa-solid fa-download" style="margin-right: 10px;"></i> Играть Бесплатно
             </button>
-            <div class="platforms">
-                <span><i class="fa-brands fa-windows"></i> Windows 10/11</span>
-                <span><i class="fa-brands fa-apple"></i> macOS (Apple Silicon)</span>
-            </div>
         </div>
     </section>
 
-    <!-- Описание игры (About) -->
+    <!-- Описание игры -->
     <section id="about" class="container">
         <h2 class="section-title">Концепция <span>игры</span></h2>
         <div style="max-width: 800px; margin: 0 auto; text-align: center; line-height: 1.8; color: var(--text-muted);">
-            <p style="margin-bottom: 20px; font-size: 1.1rem;">NEO_STRIKE переносит игроков на арены заброшенных мегаполисов киберпанкового будущего. Влияйте на гравитацию, кастомизируйте оружие в реальном времени и станьте частью глобального киберспортивного сообщества.</p>
+            <p>Новый шаг в жанре аренных киберпанк-шутеров. Модифицируйте свои параметры прямо во время матча, используйте силу вертикального геймплея и развивайте своего персонажа.</p>
         </div>
     </section>
 
-    <!-- Особенности (Features) -->
+    <!-- Особенности -->
     <section id="features" class="container" style="padding-top: 0;">
-        <h2 class="section-title">Ключевые <span>Особенности</span></h2>
+        <h2 class="section-title">Преимущества <span>Геймплея</span></h2>
         <div class="features-grid">
-            <!-- Карточка 1 -->
             <div class="glass-panel feature-card tilt-card">
-                <div class="feature-icon-wrapper">
-                    <i class="fa-solid fa-bolt"></i>
-                </div>
-                <h3>Ураганный драйв</h3>
-                <p>Ультра-быстрый игровой процесс, высокая маневренность и умный дизайн уровней обеспечат максимальную концентрацию внимания.</p>
+                <div class="feature-icon-wrapper"><i class="fa-solid fa-bolt"></i></div>
+                <h3>Динамика</h3>
+                <p>Ураганные дуэли и командные стычки, где каждая доля секунды имеет решающее значение.</p>
             </div>
-            <!-- Карточка 2 -->
             <div class="glass-panel feature-card tilt-card">
-                <div class="feature-icon-wrapper">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                </div>
-                <h3>Трассировка лучей</h3>
-                <p>Продвинутая графическая оболочка на базе современного движка с полной поддержкой динамического освещения и отражений.</p>
+                <div class="feature-icon-wrapper"><i class="fa-solid fa-gamepad"></i></div>
+                <h3>Свой класс</h3>
+                <p>Тонкая настройка способностей штурмовиков, защитников и инженеров поддержки.</p>
             </div>
-            <!-- Карточка 3 -->
             <div class="glass-panel feature-card tilt-card">
-                <div class="feature-icon-wrapper">
-                    <i class="fa-solid fa-users"></i>
-                </div>
-                <h3>Сетевые лиги</h3>
-                <p>Защищенные от читеров сервера с тикрейтом 128 Гц для бескомпромиссных соревнований и честной рейтинговой игры.</p>
+                <div class="feature-icon-wrapper"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>Античит</h3>
+                <p>Современное ядро сетевой защиты исключает возможность нечестной игры со стороны соперников.</p>
             </div>
         </div>
     </section>
 
-    <!-- Системные требования (Requirements) -->
+    <!-- ================= СЕКЦИЯ: ПРОФИЛЬ ИГРОКА ================= -->
+    <section id="profile" class="container profile-section">
+        <h2 class="section-title">Профиль <span>Агента</span></h2>
+        
+        <div class="glass-panel" style="position: relative; overflow: hidden; padding: 4px;">
+            <!-- Заглушка, если не вошел в систему -->
+            <div class="profile-locked-overlay" id="profileLockOverlay">
+                <i class="fa-solid fa-lock" style="font-size: 3rem; color: var(--neon-red); margin-bottom: 16px;"></i>
+                <h3 style="margin-bottom: 8px; font-family: var(--font-display);">Требуется авторизация</h3>
+                <p style="color: var(--text-muted); margin-bottom: 24px; max-width: 400px;">Войдите в свой аккаунт или зарегистрируйтесь, чтобы кастомизировать своего персонажа и смотреть статистику.</p>
+                <button class="btn-neon" id="profileUnlockBtn">Войти / Регистрация</button>
+            </div>
+
+            <!-- Тело профиля -->
+            <div class="profile-wrapper" id="profileWrapper">
+                <!-- Карточка с аватаром -->
+                <div class="glass-panel profile-card" style="border: none; background: rgba(0,0,0,0.2);">
+                    <div class="profile-avatar-container">
+                        <!-- Дефолтная иконка, меняется при выборе -->
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=agent&backgroundColor=070709" alt="Аватар Агента" id="profileAvatarImg">
+                    </div>
+                    
+                    <h3 style="font-family: var(--font-display);" id="profileUsernameDisplay">AGENT_01</h3>
+                    <div class="profile-rank" id="profileFactionDisplay">Штурмовик</div>
+
+                    <div style="width: 100%; margin: 10px 0;">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
+                            <span>Уровень <strong id="profileLvl">12</strong></span>
+                            <span style="color: var(--text-muted);">65% XP</span>
+                        </div>
+                        <div class="xp-bar-container">
+                            <div class="xp-bar-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-val" id="profileMatches">142</div>
+                            <div class="stat-lbl">Матчи</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-val" id="profileWinrate">61%</div>
+                            <div class="stat-lbl">Победы</div>
+                        </div>
+                    </div>
+
+                    <button class="btn-secondary btn-neon-small" style="width: 100%; margin-top: 10px;" id="logoutBtn">
+                        <i class="fa-solid fa-right-from-bracket"></i> Выйти из профиля
+                    </button>
+                </div>
+
+                <!-- Форма настроек -->
+                <div class="settings-card">
+                    <h3 style="font-family: var(--font-display); margin-bottom: 24px; text-transform: uppercase;">Настройки Агента</h3>
+                    
+                    <form id="profileEditForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="inputNickname">Позывной (Никнейм)</label>
+                                <input type="text" id="inputNickname" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectFaction">Специализация</label>
+                                <select id="selectFaction">
+                                    <option value="Штурмовик">Штурмовик (Рейдер)</option>
+                                    <option value="Техник">Техник (Дроны)</option>
+                                    <option value="Разведчик">Разведчик (Снайпер)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Внешний вид (Кибер-Аватар)</label>
+                                <div class="avatar-picker">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=agent&backgroundColor=070709" class="avatar-option selected" data-seed="agent">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=cypher&backgroundColor=070709" class="avatar-option" data-seed="cypher">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=pulse&backgroundColor=070709" class="avatar-option" data-seed="pulse">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail">E-mail (Неизменяемый)</label>
+                                <input type="email" id="inputEmail" disabled style="opacity: 0.5; cursor: not-allowed;">
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px; display: flex; gap: 12px;">
+                            <button type="submit" class="btn-neon">Сохранить изменения</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Системные требования -->
     <section id="requirements" class="container">
-        <h2 class="section-title">Системные <span>требования</span></h2>
+        <h2 class="section-title">Технические <span>требования</span></h2>
         <div class="req-grid">
-            <!-- Минимальные -->
             <div class="glass-panel req-panel">
                 <h3><i class="fa-solid fa-microchip"></i> Минимальные</h3>
                 <ul class="req-list">
-                    <li class="req-item"><span>ОС</span><span>Windows 10 (64-bit)</span></li>
-                    <li class="req-item"><span>Процессор</span><span>Intel Core i5-4460 / AMD FX-6300</span></li>
+                    <li class="req-item"><span>ОС</span><span>Windows 10</span></li>
+                    <li class="req-item"><span>Процессор</span><span>Intel Core i5-4460</span></li>
                     <li class="req-item"><span>Память</span><span>8 GB RAM</span></li>
-                    <li class="req-item"><span>Видеокарта</span><span>NVIDIA GTX 960 / AMD R9 280</span></li>
-                    <li class="req-item"><span>DirectX</span><span>Версия 11</span></li>
+                    <li class="req-item"><span>Видеокарта</span><span>NVIDIA GTX 960</span></li>
                     <li class="req-item"><span>Место на диске</span><span>35 GB SSD</span></li>
                 </ul>
             </div>
-            <!-- Рекомендуемые -->
             <div class="glass-panel req-panel">
                 <h3><i class="fa-solid fa-gauge-high"></i> Рекомендуемые</h3>
                 <ul class="req-list">
-                    <li class="req-item"><span>ОС</span><span>Windows 10/11 (64-bit)</span></li>
-                    <li class="req-item"><span>Процессор</span><span>Intel Core i7-9700K / Ryzen 5 3600X</span></li>
+                    <li class="req-item"><span>ОС</span><span>Windows 10/11</span></li>
+                    <li class="req-item"><span>Процессор</span><span>Intel Core i7-9700K</span></li>
                     <li class="req-item"><span>Память</span><span>16 GB RAM</span></li>
-                    <li class="req-item"><span>Видеокарта</span><span>NVIDIA RTX 3060 / RX 6600 XT</span></li>
-                    <li class="req-item"><span>DirectX</span><span>Версия 12</span></li>
-                    <li class="req-item"><span>Место на диске</span><span>35 GB NVMe SSD</span></li>
+                    <li class="req-item"><span>Видеокарта</span><span>NVIDIA RTX 3060</span></li>
+                    <li class="req-item"><span>Место на диске</span><span>35 GB NVMe</span></li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <!-- Подвал (Footer) -->
+    <!-- Подвал -->
     <footer>
         <div class="container footer-content">
             <a href="#" class="logo">
                 <i class="fa-solid fa-ghost"></i>NEO<span>_STRIKE</span>
             </a>
-            
             <div class="socials">
-                <a href="#" class="social-link" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
-                <a href="#" class="social-link" aria-label="Steam"><i class="fa-brands fa-steam"></i></a>
-                <a href="#" class="social-link" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-discord"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-steam"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-youtube"></i></a>
             </div>
-
-            <button class="btn-neon btn-neon-small download-trigger">Скачать игру</button>
-
-            <p class="copyright">
-                &copy; <span id="year"></span> NEO_STRIKE Project. Все права защищены. Все товарные знаки принадлежат их владельцам.
+            <p style="color: var(--text-muted); font-size: 0.8rem;">
+                &copy; <span id="year"></span> NEO_STRIKE Project. Все права сохранены.
             </p>
         </div>
     </footer>
 
-    <!-- Модальное окно загрузки -->
-    <div class="modal-overlay" id="downloadModal">
+    <!-- ================= МОДАЛКА: АВТОРИЗАЦИЯ / РЕГИСТРАЦИЯ ================= -->
+    <div class="modal-overlay" id="authModal">
         <div class="glass-panel modal-content">
-            <button class="modal-close" id="modalClose" aria-label="Закрыть">&times;</button>
-            <div class="modal-icon" id="modalIcon">
-                <i class="fa-solid fa-spinner fa-spin"></i>
-            </div>
-            <h3 class="modal-title" id="modalTitle">Подготовка к загрузке</h3>
-            <p class="modal-status" id="modalStatus">Соединение с защищенным сервером...</p>
+            <button class="modal-close" id="authModalClose">&times;</button>
             
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" id="progressBar"></div>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-target="loginForm">Вход</button>
+                <button class="auth-tab" data-target="registerForm">Регистрация</button>
             </div>
 
-            <button class="btn-neon btn-neon-small modal-btn-action" id="modalButton">Закрыть</button>
+            <!-- Форма Входа -->
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="loginEmail" placeholder="name@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" id="loginPassword" placeholder="Ваш пароль" required>
+                </div>
+                <button type="submit" class="btn-neon" style="margin-top: 10px;">Войти</button>
+            </form>
+
+            <!-- Форма Регистрации -->
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label>Позывной (Никнейм)</label>
+                    <input type="text" id="regName" placeholder="Ghost_Rider" required>
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="regEmail" placeholder="name@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" id="regPassword" placeholder="Создайте пароль" required>
+                </div>
+                <button type="submit" class="btn-neon" style="margin-top: 10px;">Зарегистрироваться</button>
+            </form>
         </div>
     </div>
 
-    <!-- Логика и интерактив -->
+    <!-- МОДАЛКА: СКАЧИВАНИЕ ИГРЫ -->
+    <div class="modal-overlay" id="downloadModal">
+        <div class="glass-panel modal-content" style="text-align: center;">
+            <button class="modal-close" id="downloadModalClose">&times;</button>
+            <div style="font-size: 3rem; color: var(--neon-red); margin-bottom: 20px;">
+                <i class="fa-solid fa-cloud-arrow-down"></i>
+            </div>
+            <h3 style="font-family: var(--font-display); margin-bottom: 8px;">Загрузка Лаунчера</h3>
+            <p id="downloadStatus" style="color: var(--text-muted); font-size: 0.9rem;">Инициализация соединения...</p>
+            
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="downloadProgressBar"></div>
+            </div>
+            <button class="btn-secondary btn-neon-small" id="downloadFinishBtn" style="display: none; width: 100%;">Завершить</button>
+        </div>
+    </div>
+
+    <!-- Всплывающий Тост (Уведомление) -->
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check" style="color: var(--neon-red);" id="toastIcon"></i>
+        <span id="toastMessage">Изменения сохранены!</span>
+    </div>
+
+    <!-- ================= JAVASCRIPT ================= -->
     <script>
-        // Динамический год в копирайте
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Липкая шапка при скролле
+        // Липкая шапка
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -825,125 +1083,277 @@
         // Мобильное меню
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');
-        const navLinks = document.querySelectorAll('.nav-link');
-
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
         });
 
-        // Закрытие меню при клике по ссылке
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menuToggle.classList.remove('active');
-                navMenu.classList.remove('active');
+        // Всплывающий Тост
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMessage.textContent = message;
+            if (isError) {
+                toastIcon.className = "fa-solid fa-circle-exclamation";
+                toastIcon.style.color = "var(--neon-red)";
+            } else {
+                toastIcon.className = "fa-solid fa-circle-check";
+                toastIcon.style.color = "#00ff66";
+            }
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ================= СИСТЕМА ПРОФИЛЕЙ (БАЗА ДАННЫХ) =================
+        const defaultUser = {
+            username: "GUEST_AGENT",
+            email: "guest@neo.com",
+            faction: "Штурмовик",
+            seed: "agent",
+            level: 1,
+            matches: 0,
+            winrate: "0%"
+        };
+
+        let currentUser = null;
+
+        // Поиск сохраненной сессии
+        function checkAuth() {
+            const savedUser = localStorage.getItem('neo_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                unlockProfileUI();
+            } else {
+                lockProfileUI();
+            }
+        }
+
+        function lockProfileUI() {
+            currentUser = null;
+            document.getElementById('profileLockOverlay').classList.remove('hidden');
+            document.getElementById('profileWrapper').classList.remove('unlocked');
+            
+            // Сброс шапки
+            document.getElementById('headerAuthContainer').innerHTML = `
+                <button class="btn-secondary btn-neon-small" id="headerLoginBtn">Войти</button>
+                <button class="btn-neon btn-neon-small download-trigger">Скачать</button>
+            `;
+            initAuthTriggers();
+        }
+
+        function unlockProfileUI() {
+            document.getElementById('profileLockOverlay').classList.add('hidden');
+            document.getElementById('profileWrapper').classList.add('unlocked');
+            
+            // Наполнение страницы данными
+            document.getElementById('profileUsernameDisplay').textContent = currentUser.username;
+            document.getElementById('profileFactionDisplay').textContent = currentUser.faction;
+            document.getElementById('profileAvatarImg').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${currentUser.seed}&backgroundColor=070709`;
+            document.getElementById('profileLvl').textContent = currentUser.level || 12;
+            document.getElementById('profileMatches').textContent = currentUser.matches || 142;
+            document.getElementById('profileWinrate').textContent = currentUser.winrate || "61%";
+
+            // Заполнение полей формы редактирования
+            document.getElementById('inputNickname').value = currentUser.username;
+            document.getElementById('selectFaction').value = currentUser.faction;
+            document.getElementById('inputEmail').value = currentUser.email;
+
+            // Выбор аватарки в редакторе
+            document.querySelectorAll('.avatar-option').forEach(img => {
+                if (img.dataset.seed === currentUser.seed) {
+                    img.classList.add('selected');
+                } else {
+                    img.classList.remove('selected');
+                }
+            });
+
+            // Обновление кнопок в шапке (показываем профиль вместо кнопки войти)
+            document.getElementById('headerAuthContainer').innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px; cursor: pointer;" onclick="location.href='#profile'">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=${currentUser.seed}&backgroundColor=070709" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--neon-red);">
+                    <span style="font-size: 0.9rem; font-weight: 600; font-family: var(--font-display); color: #fff;">${currentUser.username}</span>
+                </div>
+                <button class="btn-neon btn-neon-small download-trigger">Скачать</button>
+            `;
+        }
+
+        // Выбор аватара
+        let selectedSeed = "agent";
+        document.querySelectorAll('.avatar-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('.avatar-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                selectedSeed = opt.dataset.seed;
             });
         });
 
-        // Эффект легкого 3D-наклона на карточках (Tilt)
-        const cards = document.querySelectorAll('.tilt-card');
+        // Сохранение изменений в профиле
+        document.getElementById('profileEditForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            currentUser.username = document.getElementById('inputNickname').value;
+            currentUser.faction = document.getElementById('selectFaction').value;
+            currentUser.seed = selectedSeed;
+
+            localStorage.setItem('neo_user', JSON.stringify(currentUser));
+            unlockProfileUI();
+            showToast("Данные агента успешно обновлены!");
+        });
+
+        // Выход из профиля
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('neo_user');
+            lockProfileUI();
+            showToast("Вы вышли из профиля.");
+        });
+
+        // ================= ЛОГИКА ОКНА АВТОРИЗАЦИИ =================
+        const authModal = document.getElementById('authModal');
+        const authClose = document.getElementById('authModalClose');
+
+        function initAuthTriggers() {
+            const loginBtn = document.getElementById('headerLoginBtn');
+            const unlockBtn = document.getElementById('profileUnlockBtn');
+            
+            if (loginBtn) loginBtn.addEventListener('click', openAuthModal);
+            if (unlockBtn) unlockBtn.addEventListener('click', openAuthModal);
+        }
+
+        function openAuthModal() {
+            authModal.classList.add('active');
+        }
+
+        authClose.addEventListener('click', () => {
+            authModal.classList.remove('active');
+        });
+
+        // Переключение вкладок в модалке авторизации
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.target).classList.add('active');
+            });
+        });
+
+        // Обработка регистрации
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+
+            // Имитация записи нового юзера
+            const newUser = {
+                username: username,
+                email: email,
+                faction: "Штурмовик",
+                seed: "agent",
+                level: 1,
+                matches: 0,
+                winrate: "0%"
+            };
+
+            localStorage.setItem('neo_user', JSON.stringify(newUser));
+            currentUser = newUser;
+            unlockProfileUI();
+            authModal.classList.remove('active');
+            showToast("Вы успешно зарегистрировались!");
+        });
+
+        // Обработка входа
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+
+            // Имитируем успешный вход с базовыми параметрами
+            const loggedInUser = {
+                username: "AGENT_NEO",
+                email: email,
+                faction: "Разведчик",
+                seed: "cypher",
+                level: 15,
+                matches: 231,
+                winrate: "64%"
+            };
+
+            localStorage.setItem('neo_user', JSON.stringify(loggedInUser));
+            currentUser = loggedInUser;
+            unlockProfileUI();
+            authModal.classList.remove('active');
+            showToast("Авторизация пройдена!");
+        });
+
+        // ================= ИМИТАЦИЯ ЗАГРУЗКИ ИГРЫ =================
+        const downloadModal = document.getElementById('downloadModal');
+        const dlClose = document.getElementById('downloadModalClose');
+        const dlProgressBar = document.getElementById('downloadProgressBar');
+        const dlStatus = document.getElementById('downloadStatus');
+        const dlFinishBtn = document.getElementById('downloadFinishBtn');
+        let dlInterval;
+
+        function triggerDownload() {
+            downloadModal.classList.add('active');
+            dlFinishBtn.style.display = 'none';
+            dlProgressBar.style.width = '0%';
+            
+            let progress = 0;
+            const steps = [
+                "Подключение к защищенному пулу серверов...",
+                "Авторизация пакета данных игры...",
+                "Скачивание дистрибутива лаунчера...",
+                "Верификация зашифрованных блоков..."
+            ];
+
+            dlInterval = setInterval(() => {
+                progress += Math.floor(Math.random() * 12) + 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(dlInterval);
+                    dlStatus.textContent = "Файл скачан! Запустите установку лаунчера.";
+                    dlFinishBtn.style.display = 'block';
+                } else {
+                    const stepIdx = Math.floor((progress / 100) * steps.length);
+                    dlStatus.textContent = steps[stepIdx] || "Загрузка...";
+                }
+                dlProgressBar.style.width = `${progress}%`;
+            }, 250);
+        }
+
+        document.querySelectorAll('.download-trigger').forEach(trigger => {
+            trigger.addEventListener('click', triggerDownload);
+        });
+
+        dlClose.addEventListener('click', () => {
+            downloadModal.classList.remove('active');
+            clearInterval(dlInterval);
+        });
         
+        dlFinishBtn.addEventListener('click', () => {
+            downloadModal.classList.remove('active');
+        });
+
+        // Наклон карточек 3D (Tilt)
+        const cards = document.querySelectorAll('.tilt-card');
         cards.forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left; // координата X внутри элемента
-                const y = e.clientY - rect.top;  // координата Y внутри элемента
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                // Вычисление углов поворота (макс. 10 градусов)
-                const rotateX = ((centerY - y) / centerY) * 10;
-                const rotateY = ((x - centerX) / centerX) * 10;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                const x = e.clientX - rect.left - rect.width/2;
+                const y = e.clientY - rect.top - rect.height/2;
+                card.style.transform = `perspective(1000px) rotateX(${-y / 15}deg) rotateY(${x / 15}deg) scale3d(1.02, 1.02, 1.02)`;
             });
-
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
             });
         });
 
-        // Работа с модальным окном и имитация загрузки
-        const modal = document.getElementById('downloadModal');
-        const modalClose = document.getElementById('modalClose');
-        const downloadTriggers = document.querySelectorAll('.download-trigger');
-        
-        const modalTitle = document.getElementById('modalTitle');
-        const modalStatus = document.getElementById('modalStatus');
-        const progressBar = document.getElementById('progressBar');
-        const modalIcon = document.getElementById('modalIcon');
-        const modalButton = document.getElementById('modalButton');
-
-        let downloadInterval;
-
-        function openModal() {
-            modal.classList.add('active');
-            startFakeDownload();
-        }
-
-        function closeModal() {
-            modal.classList.remove('active');
-            clearInterval(downloadInterval);
-            // Сброс состояния окна после закрытия (с задержкой для плавности)
-            setTimeout(() => {
-                progressBar.style.width = '0%';
-                modalTitle.textContent = 'Подготовка к загрузке';
-                modalStatus.textContent = 'Соединение с защищенным сервером...';
-                modalIcon.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-                modalButton.style.display = 'none';
-            }, 400);
-        }
-
-        function startFakeDownload() {
-            let progress = 0;
-            progressBar.style.width = '0%';
-            
-            // Этапы статусов загрузки
-            const stages = [
-                { limit: 20, text: 'Поиск оптимального зеркала...' },
-                { limit: 50, text: 'Получение манифеста пакета (34.8 MB)...' },
-                { limit: 80, text: 'Скачивание лаунчера NEO_STRIKE...' },
-                { limit: 99, text: 'Проверка целостности файлов...' }
-            ];
-
-            let stageIndex = 0;
-
-            downloadInterval = setInterval(() => {
-                progress += Math.floor(Math.random() * 8) + 3; // Случайный шаг
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(downloadInterval);
-                    
-                    // Завершение скачивания
-                    modalTitle.textContent = 'Файл готов!';
-                    modalStatus.textContent = 'Установка лаунчера начнется автоматически.';
-                    modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #00ff66;"></i>';
-                    modalButton.style.display = 'inline-flex';
-                } else {
-                    // Обновление текстовых этапов
-                    if (stageIndex < stages.length && progress >= stages[stageIndex].limit) {
-                        modalStatus.textContent = stages[stageIndex].text;
-                        stageIndex++;
-                    }
-                }
-                progressBar.style.width = `${progress}%`;
-            }, 150);
-        }
-
-        downloadTriggers.forEach(trigger => {
-            trigger.addEventListener('click', openModal);
-        });
-
-        modalClose.addEventListener('click', closeModal);
-        modalButton.addEventListener('click', closeModal);
-
-        // Закрытие модального окна по клику вне контента
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
+        // Инициализация
+        checkAuth();
     </script>
 </body>
 </html>
