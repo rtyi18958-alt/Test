@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON ABYSS - Официальный сайт игры</title>
+    <!-- Google Fonts: Exo 2 для геймерского стиля -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Базовые переменные и стили --- */
+        :root {
+            --bg-dark: #0a0a0c;
+            --accent-red: #ff003c;
+            --accent-glow: rgba(255, 0, 60, 0.35);
+            --glass-bg: rgba(18, 18, 22, 0.55);
+            --glass-border: rgba(255, 0, 60, 0.25);
+            --glass-blur: blur(14px);
+            --text-main: #ffffff;
+            --text-secondary: #b0b0b8;
+            --font-family: 'Exo 2', sans-serif;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* --- Анимированный фоновый градиент --- */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 30%, #1a050a 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, #050d1a 0%, transparent 40%),
+                        #070708;
+            overflow: hidden;
+        }
+
+        .bg-glow-orb {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(50px);
+            animation: float 15s ease-in-out infinite alternate;
+        }
+
+        .bg-glow-orb-1 {
+            top: 10%;
+            left: 15%;
+        }
+
+        .bg-glow-orb-2 {
+            bottom: 15%;
+            right: 15%;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(50px, 50px) scale(1.2);
+            }
+        }
+
+        /* --- Общие стили для кнопок и элементов --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.75rem;
+            font-family: var(--font-family);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            background: rgba(255, 0, 60, 0.15);
+            border: 1px solid var(--accent-red);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            text-decoration: none;
+            box-shadow: 0 0 10px rgba(255, 0, 60, 0.2);
+            backdrop-filter: var(--glass-blur);
+        }
+
+        .btn:hover {
+            background: var(--accent-red);
+            box-shadow: 0 0 20px var(--accent-red);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-large {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            border-width: 2px;
+        }
+
+        /* Элементы со стекломорфизмом */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4),
+                        inset 0 0 15px rgba(255, 0, 60, 0.05);
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title span {
+            color: var(--accent-red);
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* --- Шапка (Header) --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(10, 10, 12, 0.7);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            color: var(--accent-red);
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color var(--transition-speed) ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-red);
+        }
+
+        /* Мобильное меню гамбургер */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 101;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-main);
+            transition: all var(--transition-speed) ease;
+        }
+
+        /* --- Главный экран (Hero Section) --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 100px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            text-shadow: 0 0 20px rgba(255, 0, 60, 0.4);
+        }
+
+        .hero-title span {
+            color: var(--accent-red);
+            text-shadow: 0 0 30px var(--accent-red);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .platforms {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .platform-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .platform-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--text-secondary);
+        }
+
+        /* --- Описание (About Section) --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .about-card {
+            padding: 2.5rem 2rem;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .about-card:hover {
+            border-color: var(--accent-red);
+            box-shadow: 0 10px 30px rgba(255, 0, 60, 0.15),
+                        inset 0 0 20px rgba(255, 0, 60, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 0, 60, 0.1);
+            border: 1px solid var(--accent-red);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .card-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--accent-red);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* --- Системные требования (Requirements) --- */
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .req-column {
+            padding: 2.5rem;
+        }
+
+        .req-column-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid rgba(255, 0, 60, 0.3);
+            padding-bottom: 0.75rem;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .req-column-title span {
+            font-size: 0.9rem;
+            color: var(--accent-red);
+        }
+
+        .req-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .req-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .req-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        .req-value {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        /* --- Подвал (Footer) --- */
+        .footer {
+            background: rgba(8, 8, 10, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color var(--transition-speed);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-red);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all var(--transition-speed);
+        }
+
+        .social-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--text-secondary);
+            transition: fill var(--transition-speed);
+        }
+
+        .social-icon:hover {
+            background: rgba(255, 0, 60, 0.1);
+            border-color: var(--accent-red);
+            transform: translateY(-3px);
+        }
+
+        .social-icon:hover svg {
+            fill: var(--accent-red);
+        }
+
+        /* --- Модальное окно (Modal) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            transform: scale(0.85);
+            transition: transform 0.4s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .close-modal svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-secondary);
+            transition: fill var(--transition-speed);
+        }
+
+        .close-modal:hover svg {
+            fill: var(--accent-red);
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .modal-text {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* Прогресс-бар */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-red);
+            box-shadow: 0 0 10px var(--accent-red);
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .status-badge.completed {
+            background: rgba(0, 255, 100, 0.1);
+            border-color: #00ff64;
+            color: #00ff64;
+            box-shadow: 0 0 10px rgba(0, 255, 100, 0.2);
+        }
+
+        /* --- Адаптивность --- */
+        @media (max-width: 992px) {
+            .requirements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                height: 100vh;
+                background: rgba(10, 10, 12, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                transition: right 0.4s ease;
+                z-index: 99;
+                border-left: 1px solid var(--glass-border);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            /* Анимация гамбургера при активации */
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Фоновая анимация -->
+    <div class="bg-animation">
+        <div class="bg-glow-orb bg-glow-orb-1"></div>
+        <div class="bg-glow-orb bg-glow-orb-2"></div>
+    </div>
+
+    <!-- Шапка сайта -->
+    <header class="header">
+        <div class="container nav-container">
+            <a href="#" class="logo">NEON<span>ABYSS</span></a>
+            
+            <button class="menu-toggle" id="menu-btn" aria-label="Открыть меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="#about">Об игре</a></li>
+                <li><a href="#requirements">Системные требования</a></li>
+                <li><a href="#" class="btn btn-download-trigger">Скачать</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Главный экран -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1 class="hero-title">Шагните в<br><span>NEON ABYSS</span></h1>
+            <p class="hero-subtitle">Динамичный киберпанк-экшен нового поколения. Пробивайтесь через толпы врагов под футуристичные ритмы электроники.</p>
+            <button class="btn btn-large btn-download-trigger">СКАЧАТЬ ИГРУ</button>
+            <div class="platforms">
+                <span>Доступно на:</span>
+                <span class="platform-icon">
+                    <svg viewBox="0 0 88 88"><path d="M0 12.402l35.617-4.846v34.425H0V12.402zm0 34.253h35.617v34.137L0 76.108V46.655zm39.11-39.52L88 1v39.141H39.11V7.135zM88 46.655V87L39.11 80.17V46.655H88z"/></svg>
+                    Windows
+                </span>
+                <span class="platform-icon">
+                    <svg viewBox="0 0 170 170"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.34.13-9.13-1.78-14.35-5.74-3.8-3.04-7.89-7.91-12.26-14.61-7.83-11.97-13.62-24.97-17.37-38.99C7.49 93.61 5.6 79.46 5.6 65.37c0-14.93 3.65-27.42 10.96-37.47 7.3-10.05 16.51-15.17 27.63-15.35 5.63 0 11.66 1.7 18.07 5.1 6.42 3.4 10.96 5.1 13.63 5.1 2.45 0 6.91-1.8 13.4-5.4 6.48-3.6 12.41-5.3 17.81-5.1 14.88.63 26.28 6.07 34.2 16.33-12.47 7.56-18.61 17.61-18.42 30.14.2 9.87 3.84 18.06 10.94 24.58 7.09 6.51 15.42 10.08 24.98 10.73-2.3 6.94-5.22 13.9-8.76 20.89zm-16.71-118c-.06 8.32-3.16 15.8-9.31 22.44-6.15 6.64-13.49 10.51-22.03 11.62.25-8.08 3.41-15.54 9.48-22.38 6.07-6.84 13.49-10.75 22.25-11.73.06.33.09.68.09 1.05v1z"/></svg>
+                    macOS
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Раздел "Об игре" -->
+    <section id="about" class="container">
+        <h2 class="section-title">Особенности <span>Игры</span></h2>
+        <div class="about-grid">
+            
+            <div class="about-card glass-panel" data-tilt>
+                <div class="card-icon">
+                    <!-- Иконка: Молния -->
+                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H5v12h4v6l10-12z"/></svg>
+                </div>
+                <h3 class="card-title">Динамичный геймплей</h3>
+                <p class="card-desc">Каждый бой требует высокой реакции и тактических решений на высоких скоростях.</p>
+            </div>
+
+            <div class="about-card glass-panel" data-tilt>
+                <div class="card-icon">
+                    <!-- Иконка: Глаз/Спецэффекты -->
+                    <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                </div>
+                <h3 class="card-title">Трассировка лучей</h3>
+                <p class="card-desc">Погрузитесь в невероятно детализированный мир неонового города будущего.</p>
+            </div>
+
+            <div class="about-card glass-panel" data-tilt>
+                <div class="card-icon">
+                    <!-- Иконка: Группа/Мультиплеер -->
+                    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 1.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                </div>
+                <h3 class="card-title">Кооператив</h3>
+                <p class="card-desc">Проходите сюжетную кампанию в одиночку или объединяйтесь с друзьями в сети.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Системные требования -->
+    <section id="requirements" class="container">
+        <h2 class="section-title">Системные <span>Требования</span></h2>
+        <div class="requirements-grid">
+            
+            <!-- Минимальные требования -->
+            <div class="req-column glass-panel">
+                <h3 class="req-column-title">Минимальные <span>1080p / 30 FPS</span></h3>
+                <ul class="req-list">
+                    <li class="req-item">
+                        <span class="req-label">ОС</span>
+                        <span class="req-value">Windows 10 (64-bit)</span>
+                    </li>
+                    <li class="req-item">
+                        <span class="req-label">Процессор</span>
+                        <span class="req-value">Intel Core i5-4460 / AMD FX-8350</span>
+                    </li>
+                    <li class="req-item">
+                        <span class="req-label">Оперативная память</span>
+                        <span class="req-value">8 GB ОЗУ</span>
+                    </li>
+                    <li class="req-item">
+                        <span class="req-label">Видеокарта</span>
+                        <span class="req-value">NVIDIA GTX 960 / AMD R9 280 (4GB VRAM)</span>
+                    </li>
+                    <li class="req-item">
+                        <span class="req-label">Место на диске</span>
+                        <span class="req-value">40 GB (желательно SSD)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Рекомендуемые требования -->
+            <div class="req-column glass-panel">
+                <h3 class="req-column-title">Рекомендуемые <span>1440p / 60+ FPS</span></h3>
+                <ul class="req-list">
+                    <li class="req-item">
+                        <span class="req-label">ОС</span>
+                        <span class="req-value">Windows 10 / 11 (64-bit)</span>
+                    </li>
+                    <li class="req-item">
+                        <span class="req-label">Процессор</span>
+                        <span class="req-value">Intel Core i7-8700K / AMD Ryzen 5 3600</span>
+                    </li>
+                    <li class="req-item">
+                        <span class="req-label">Оперативная память</span>
+                        <span class="req-value">16 GB ОЗУ</span>
+                    </li>
+                    <li class="req-item">
+                        <span class="req-label">Видеокарта</span>
+                        <span class="req-value">NVIDIA RTX 2060 / AMD RX 5700 (8GB VRAM)</span>
+                    </li>
+                    <li class="req-item">
+                        <span class="req-label">Место на диске</span>
+                        <span class="req-value">40 GB NVMe SSD</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Подвал (Footer) -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-left">
+                <a href="#" class="logo">NEON<span>ABYSS</span></a>
+                <p class="copyright">&copy; 2025 NEON ABYSS. Все права защищены.</p>
+            </div>
+            
+            <div class="footer-links">
+                <a href="#about">Об игре</a>
+                <a href="#requirements">Требования</a>
+                <a href="#">Политика конфиденциальности</a>
+            </div>
+
+            <div class="social-links">
+                <!-- Соцсеть 1 (Discord) -->
+                <a href="#" class="social-icon" aria-label="Discord">
+                    <svg viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.4-5c.87-.64,1.72-1.32,2.53-2a75.47,75.47,0,0,0,75.7,0c.81.7,1.66,1.38,2.53,2a68.43,68.43,0,0,1-10.4,5,77.7,77.7,0,0,0,6.63,10.85,105.73,105.73,0,0,0,31-18.83C129.58,48.25,123.51,25.41,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5.14-12.65,11.41-12.65S53.9,46,53.8,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.38,40.38,84.69,40.38,96.14,46,96,53,91,65.69,84.69,65.69Z"/></svg>
+                </a>
+                <!-- Соцсеть 2 (Telegram) -->
+                <a href="#" class="social-icon" aria-label="Telegram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.37.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+                </a>
+                <!-- Соцсеть 3 (YouTube) -->
+                <a href="#" class="social-icon" aria-label="YouTube">
+                    <svg viewBox="0 0 24 24"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.507 9.388.507 9.388.507s7.517 0 9.388-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Модальное окно загрузки -->
+    <div class="modal-overlay" id="download-modal">
+        <div class="modal-content glass-panel">
+            <button class="close-modal" id="close-modal-btn" aria-label="Закрыть окно">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+            <h3 class="modal-title">Подготовка файла</h3>
+            <p class="modal-text" id="modal-status-text">Скачивание начнется через несколько секунд...</p>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="download-progress"></div>
+            </div>
+
+            <span class="status-badge" id="modal-badge">Проверка подключения...</span>
+        </div>
+    </div>
+
+    <!-- JavaScript логика -->
+    <script>
+        // --- Мобильное меню (Гамбургер) ---
+        const menuBtn = document.getElementById('menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuBtn.addEventListener('click', () => {
+            menuBtn.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Закрытие меню при клике по ссылке
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuBtn.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // --- Эмуляция скачивания в модальном окне ---
+        const modal = document.getElementById('download-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const downloadTriggers = document.querySelectorAll('.btn-download-trigger');
+        const progressBar = document.getElementById('download-progress');
+        const statusText = document.getElementById('modal-status-text');
+        const statusBadge = document.getElementById('modal-badge');
+        
+        let downloadTimer = null;
+
+        function openDownloadModal() {
+            modal.classList.add('active');
+            startDownloadSimulation();
+        }
+
+        function closeDownloadModal() {
+            modal.classList.remove('active');
+            resetDownloadSimulation();
+        }
+
+        function startDownloadSimulation() {
+            resetDownloadSimulation();
+            let progress = 0;
+            
+            statusText.innerText = 'Соединение с сервером загрузки...';
+            statusBadge.innerText = 'Подключение...';
+            statusBadge.classList.remove('completed');
+
+            downloadTimer = setInterval(() => {
+                progress += Math.floor(Math.random() * 8) + 4; // Случайный шаг
+                
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(downloadTimer);
+                    statusText.innerText = 'Архив neon_abyss_setup.exe успешно подготовлен!';
+                    statusBadge.innerText = 'Файл готов!';
+                    statusBadge.classList.add('completed');
+                } else {
+                    statusText.innerText = `Подготовка файлов игры... скачано ${progress}%`;
+                    if (progress > 30 && progress < 70) {
+                        statusBadge.innerText = 'Скачивание манифеста...';
+                    } else if (progress >= 70) {
+                        statusBadge.innerText = 'Сборка дистрибутива...';
+                    }
+                }
+                
+                progressBar.style.width = `${progress}%`;
+            }, 150);
+        }
+
+        function resetDownloadSimulation() {
+            clearInterval(downloadTimer);
+            progressBar.style.width = '0%';
+            statusText.innerText = '';
+            statusBadge.innerText = '';
+            statusBadge.classList.remove('completed');
+        }
+
+        // События для модального окна
+        downloadTriggers.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openDownloadModal();
+            });
+        });
+
+        closeModalBtn.addEventListener('click', closeDownloadModal);
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeDownloadModal();
+            }
+        });
+
+        // --- Легкий эффект наклона (Tilt) для карточек на чистом JS ---
+        const cards = document.querySelectorAll('[data-tilt]');
+
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left; // координата X внутри элемента
+                const y = e.clientY - rect.top;  // координата Y внутри элемента
+                
+                const width = rect.width;
+                const height = rect.height;
+                
+                // Рассчитываем углы поворота (макс 10 градусов)
+                const rotateX = ((y / height) - 0.5) * -12;
+                const rotateY = ((x / width) - 0.5) * 12;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
