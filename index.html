@@ -92,7 +92,7 @@
         }
 
         /* Инпуты */
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 12px 16px;
             background: rgba(255, 255, 255, 0.05);
@@ -104,11 +104,15 @@
             transition: all var(--transition-speed);
         }
 
-        input:focus, select:focus {
+        input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--neon-red);
             box-shadow: 0 0 10px var(--neon-red-glow);
             background: rgba(255, 255, 255, 0.08);
+        }
+
+        textarea {
+            resize: none;
         }
 
         a {
@@ -412,8 +416,8 @@
 
         .profile-wrapper {
             display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 30px;
+            grid-template-columns: 1.1fr 1.8fr 1.1fr;
+            gap: 24px;
             opacity: 0.2; /* размытость когда не вошел */
             transition: opacity var(--transition-speed);
         }
@@ -423,7 +427,7 @@
         }
 
         .profile-card {
-            padding: 30px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -448,6 +452,17 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .profile-bio {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 14px;
+            width: 100%;
+            word-break: break-word;
         }
 
         .profile-rank {
@@ -492,7 +507,7 @@
 
         /* Настройки профиля */
         .settings-card {
-            padding: 40px;
+            padding: 30px;
         }
 
         .form-row {
@@ -508,6 +523,10 @@
             gap: 8px;
         }
 
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
         .form-group label {
             font-size: 0.85rem;
             font-weight: 600;
@@ -516,15 +535,21 @@
         }
 
         /* Выбор аватарки */
+        .avatar-picker-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         .avatar-picker {
             display: flex;
-            gap: 12px;
-            margin-top: 8px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .avatar-option {
-            width: 50px;
-            height: 50px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             border: 2px solid transparent;
             cursor: pointer;
@@ -537,6 +562,26 @@
             box-shadow: 0 0 8px var(--neon-red);
             opacity: 1;
             transform: scale(1.05);
+        }
+
+        .btn-upload-file {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed var(--border-glass);
+            color: var(--text-main);
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all var(--transition-speed);
+        }
+
+        .btn-upload-file:hover {
+            border-color: var(--neon-red);
+            background: rgba(255, 7, 58, 0.05);
         }
 
         /* Уровень (Опыт) */
@@ -552,6 +597,114 @@
         .xp-bar-fill {
             width: 65%;
             height: 100%;
+            background: var(--neon-red);
+            box-shadow: 0 0 8px var(--neon-red);
+        }
+
+        /* Друзья онлайн */
+        .friends-card {
+            padding: 30px 20px;
+        }
+
+        .friends-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .friends-title i {
+            color: #00ff66;
+            text-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
+        }
+
+        .friends-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .friend-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 10px 12px;
+            border-radius: 8px;
+            transition: all var(--transition-speed);
+        }
+
+        .friend-item:hover {
+            border-color: rgba(255, 7, 58, 0.15);
+            background: rgba(255, 7, 58, 0.02);
+        }
+
+        .friend-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .friend-avatar {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .friend-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .friend-status-dot {
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1.5px solid #070709;
+        }
+
+        .friend-status-dot.online { background-color: #00ff66; box-shadow: 0 0 6px #00ff66; }
+        .friend-status-dot.away { background-color: #ffb700; box-shadow: 0 0 6px #ffb700; }
+
+        .friend-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .friend-status-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .friend-action-btn {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .friend-action-btn:hover {
+            border-color: var(--neon-red);
+            color: #fff;
             background: var(--neon-red);
             box-shadow: 0 0 8px var(--neon-red);
         }
@@ -758,13 +911,28 @@
         }
 
         /* Адаптивность */
+        @media (max-width: 1100px) {
+            .profile-wrapper {
+                grid-template-columns: 1fr 1.8fr;
+            }
+            .friends-card {
+                grid-column: span 2;
+            }
+        }
+
         @media (max-width: 992px) {
-            .req-grid, .profile-wrapper {
+            .req-grid {
                 grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
+            .profile-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .friends-card {
+                grid-column: span 1;
+            }
             .nav-menu {
                 position: fixed;
                 top: 80px;
@@ -782,6 +950,7 @@
             .nav-menu.active { left: 0; }
             .menu-toggle { display: flex; }
             .form-row { grid-template-columns: 1fr; gap: 16px; }
+            .form-group.full-width { grid-column: span 1; }
         }
     </style>
 </head>
@@ -871,21 +1040,23 @@
             <div class="profile-locked-overlay" id="profileLockOverlay">
                 <i class="fa-solid fa-lock" style="font-size: 3rem; color: var(--neon-red); margin-bottom: 16px;"></i>
                 <h3 style="margin-bottom: 8px; font-family: var(--font-display);">Требуется авторизация</h3>
-                <p style="color: var(--text-muted); margin-bottom: 24px; max-width: 400px;">Войдите в свой аккаунт или зарегистрируйтесь, чтобы кастомизировать своего персонажа и смотреть статистику.</p>
+                <p style="color: var(--text-muted); margin-bottom: 24px; max-width: 400px;">Войдите в свой аккаунт или зарегистрируйтесь, чтобы кастомизировать своего персонажа, управлять друзьями и смотреть статистику.</p>
                 <button class="btn-neon" id="profileUnlockBtn">Войти / Регистрация</button>
             </div>
 
             <!-- Тело профиля -->
             <div class="profile-wrapper" id="profileWrapper">
-                <!-- Карточка с аватаром -->
+                <!-- Карточка с аватаром (КОЛОНКА 1) -->
                 <div class="glass-panel profile-card" style="border: none; background: rgba(0,0,0,0.2);">
                     <div class="profile-avatar-container">
-                        <!-- Дефолтная иконка, меняется при выборе -->
                         <img src="https://api.dicebear.com/7.x/bottts/svg?seed=agent&backgroundColor=070709" alt="Аватар Агента" id="profileAvatarImg">
                     </div>
                     
                     <h3 style="font-family: var(--font-display);" id="profileUsernameDisplay">AGENT_01</h3>
                     <div class="profile-rank" id="profileFactionDisplay">Штурмовик</div>
+
+                    <!-- Текст "О себе" на карточке -->
+                    <p class="profile-bio" id="profileBioDisplay">«Готов к выходу на поле боя...»</p>
 
                     <div style="width: 100%; margin: 10px 0;">
                         <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
@@ -909,11 +1080,11 @@
                     </div>
 
                     <button class="btn-secondary btn-neon-small" style="width: 100%; margin-top: 10px;" id="logoutBtn">
-                        <i class="fa-solid fa-right-from-bracket"></i> Выйти из профиля
+                        <i class="fa-solid fa-right-from-bracket"></i> Выйти
                     </button>
                 </div>
 
-                <!-- Форма настроек -->
+                <!-- Форма настроек (КОЛОНКА 2) -->
                 <div class="settings-card">
                     <h3 style="font-family: var(--font-display); margin-bottom: 24px; text-transform: uppercase;">Настройки Агента</h3>
                     
@@ -935,23 +1106,98 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Внешний вид (Кибер-Аватар)</label>
-                                <div class="avatar-picker">
-                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=agent&backgroundColor=070709" class="avatar-option selected" data-seed="agent">
-                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=cypher&backgroundColor=070709" class="avatar-option" data-seed="cypher">
-                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=pulse&backgroundColor=070709" class="avatar-option" data-seed="pulse">
+                                <label>Внешний вид (Аватар)</label>
+                                <div class="avatar-picker-wrapper">
+                                    <div class="avatar-picker">
+                                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=agent&backgroundColor=070709" class="avatar-option selected" data-seed="agent">
+                                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=cypher&backgroundColor=070709" class="avatar-option" data-seed="cypher">
+                                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=pulse&backgroundColor=070709" class="avatar-option" data-seed="pulse">
+                                    </div>
+                                    <button type="button" class="btn-upload-file" id="btnUploadTrigger">
+                                        <i class="fa-solid fa-upload"></i> Свое изображение
+                                    </button>
+                                    <input type="file" id="avatarFileInput" accept="image/*" style="display: none;">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputEmail">E-mail (Неизменяемый)</label>
-                                <input type="email" id="inputEmail" disabled style="opacity: 0.5; cursor: not-allowed;">
+                                <label for="inputEmail">E-mail (Скрыт)</label>
+                                <input type="text" id="inputEmail" disabled style="opacity: 0.6; cursor: not-allowed; font-family: monospace;">
                             </div>
                         </div>
 
-                        <div style="margin-top: 30px; display: flex; gap: 12px;">
+                        <!-- О себе -->
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="inputBio">О себе (Информация в профиле)</label>
+                                <textarea id="inputBio" rows="3" placeholder="Расскажите о своем стиле игры или достижениях..."></textarea>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 10px; display: flex; gap: 12px;">
                             <button type="submit" class="btn-neon">Сохранить изменения</button>
                         </div>
                     </form>
+                </div>
+
+                <!-- Друзья онлайн (КОЛОНКА 3) -->
+                <div class="glass-panel friends-card" style="border: none; background: rgba(0,0,0,0.2);">
+                    <div class="friends-title">
+                        <i class="fa-solid fa-circle"></i>
+                        <span>Друзья онлайн</span>
+                    </div>
+
+                    <div class="friends-list" id="friendsList">
+                        <!-- Друг 1 -->
+                        <div class="friend-item">
+                            <div class="friend-meta">
+                                <div class="friend-avatar">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=viper&backgroundColor=070709">
+                                    <div class="friend-status-dot online"></div>
+                                </div>
+                                <div>
+                                    <div class="friend-name">VIPER_STRIKE</div>
+                                    <div class="friend-status-text">В матче (12м)</div>
+                                </div>
+                            </div>
+                            <button class="friend-action-btn" title="Пригласить в отряд" onclick="inviteFriend('VIPER_STRIKE')">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Друг 2 -->
+                        <div class="friend-item">
+                            <div class="friend-meta">
+                                <div class="friend-avatar">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=cyber&backgroundColor=070709">
+                                    <div class="friend-status-dot online"></div>
+                                </div>
+                                <div>
+                                    <div class="friend-name">CyberGhost</div>
+                                    <div class="friend-status-text">В лобби</div>
+                                </div>
+                            </div>
+                            <button class="friend-action-btn" title="Пригласить в отряд" onclick="inviteFriend('CyberGhost')">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+
+                        <!-- Друг 3 -->
+                        <div class="friend-item">
+                            <div class="friend-meta">
+                                <div class="friend-avatar">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=rex&backgroundColor=070709">
+                                    <div class="friend-status-dot away"></div>
+                                </div>
+                                <div>
+                                    <div class="friend-name">N3ON_R3X</div>
+                                    <div class="friend-status-text">AFK (3м)</div>
+                                </div>
+                            </div>
+                            <button class="friend-action-btn" title="Пригласить в отряд" onclick="inviteFriend('N3ON_R3X')">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1106,20 +1352,23 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // ================= СИСТЕМА ПРОФИЛЕЙ (БАЗА ДАННЫХ) =================
-        const defaultUser = {
-            username: "GUEST_AGENT",
-            email: "guest@neo.com",
-            faction: "Штурмовик",
-            seed: "agent",
-            level: 1,
-            matches: 0,
-            winrate: "0%"
-        };
+        // Вспомогательная функция маскирования Email
+        function maskEmail(email) {
+            if (!email) return '***@***.***';
+            const parts = email.split('@');
+            if (parts.length !== 2) return email;
+            const name = parts[0];
+            const domain = parts[1];
+            if (name.length <= 2) {
+                return name[0] + '***@' + domain;
+            }
+            return name.substring(0, 2) + '***' + name.substring(name.length - 1) + '@' + domain;
+        }
 
+        // ================= СИСТЕМА ПРОФИЛЕЙ (ХРАНИЛИЩЕ) =================
         let currentUser = null;
 
-        // Поиск сохраненной сессии
+        // Проверка авторизации
         function checkAuth() {
             const savedUser = localStorage.getItem('neo_user');
             if (savedUser) {
@@ -1147,67 +1396,113 @@
             document.getElementById('profileLockOverlay').classList.add('hidden');
             document.getElementById('profileWrapper').classList.add('unlocked');
             
-            // Наполнение страницы данными
+            // Заполнение карточки агента
             document.getElementById('profileUsernameDisplay').textContent = currentUser.username;
             document.getElementById('profileFactionDisplay').textContent = currentUser.faction;
-            document.getElementById('profileAvatarImg').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${currentUser.seed}&backgroundColor=070709`;
+            
+            // Установка аватарки (кастомная или предустановленная)
+            const avatarImg = document.getElementById('profileAvatarImg');
+            if (currentUser.customAvatar) {
+                avatarImg.src = currentUser.customAvatar;
+            } else {
+                avatarImg.src = `https://api.dicebear.com/7.x/bottts/svg?seed=${currentUser.seed}&backgroundColor=070709`;
+            }
+
             document.getElementById('profileLvl').textContent = currentUser.level || 12;
             document.getElementById('profileMatches').textContent = currentUser.matches || 142;
             document.getElementById('profileWinrate').textContent = currentUser.winrate || "61%";
+            
+            // Заполнение информации "О себе"
+            const bioText = currentUser.bio || "Описание профиля не заполнено.";
+            document.getElementById('profileBioDisplay').textContent = `«${bioText}»`;
+            document.getElementById('inputBio').value = currentUser.bio || "";
 
-            // Заполнение полей формы редактирования
+            // Заполнение полей формы настроек
             document.getElementById('inputNickname').value = currentUser.username;
             document.getElementById('selectFaction').value = currentUser.faction;
-            document.getElementById('inputEmail').value = currentUser.email;
+            document.getElementById('inputEmail').value = maskEmail(currentUser.email);
 
-            // Выбор аватарки в редакторе
+            // Выделение выбранной аватарки (если используется предустановленная)
             document.querySelectorAll('.avatar-option').forEach(img => {
-                if (img.dataset.seed === currentUser.seed) {
+                if (!currentUser.customAvatar && img.dataset.seed === currentUser.seed) {
                     img.classList.add('selected');
                 } else {
                     img.classList.remove('selected');
                 }
             });
 
-            // Обновление кнопок в шапке (показываем профиль вместо кнопки войти)
+            // Обновление шапки сайта
+            const headerAvatarSrc = currentUser.customAvatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${currentUser.seed}&backgroundColor=070709`;
             document.getElementById('headerAuthContainer').innerHTML = `
                 <div style="display: flex; align-items: center; gap: 10px; cursor: pointer;" onclick="location.href='#profile'">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=${currentUser.seed}&backgroundColor=070709" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--neon-red);">
+                    <img src="${headerAvatarSrc}" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--neon-red); object-fit: cover;">
                     <span style="font-size: 0.9rem; font-weight: 600; font-family: var(--font-display); color: #fff;">${currentUser.username}</span>
                 </div>
                 <button class="btn-neon btn-neon-small download-trigger">Скачать</button>
             `;
         }
 
-        // Выбор аватара
-        let selectedSeed = "agent";
+        // Выбор предустановленной аватарки
         document.querySelectorAll('.avatar-option').forEach(opt => {
             opt.addEventListener('click', () => {
                 document.querySelectorAll('.avatar-option').forEach(o => o.classList.remove('selected'));
                 opt.classList.add('selected');
-                selectedSeed = opt.dataset.seed;
+                
+                if (currentUser) {
+                    currentUser.seed = opt.dataset.seed;
+                    currentUser.customAvatar = null; // сбрасываем кастомную при выборе стандартной
+                }
             });
         });
 
-        // Сохранение изменений в профиле
+        // Загрузка своего изображения
+        const uploadTrigger = document.getElementById('btnUploadTrigger');
+        const fileInput = document.getElementById('avatarFileInput');
+
+        uploadTrigger.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const base64Image = event.target.result;
+                    if (currentUser) {
+                        currentUser.customAvatar = base64Image;
+                        currentUser.seed = "custom";
+                        // Снимаем выделение со стандартных аватарок
+                        document.querySelectorAll('.avatar-option').forEach(o => o.classList.remove('selected'));
+                        
+                        // Временное превью
+                        document.getElementById('profileAvatarImg').src = base64Image;
+                        showToast("Изображение загружено. Не забудьте сохранить изменения!");
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Сохранение настроек профиля
         document.getElementById('profileEditForm').addEventListener('submit', (e) => {
             e.preventDefault();
             if (!currentUser) return;
 
             currentUser.username = document.getElementById('inputNickname').value;
             currentUser.faction = document.getElementById('selectFaction').value;
-            currentUser.seed = selectedSeed;
+            currentUser.bio = document.getElementById('inputBio').value;
 
             localStorage.setItem('neo_user', JSON.stringify(currentUser));
             unlockProfileUI();
-            showToast("Данные агента успешно обновлены!");
+            showToast("Профиль успешно обновлен!");
         });
 
         // Выход из профиля
         document.getElementById('logoutBtn').addEventListener('click', () => {
             localStorage.removeItem('neo_user');
             lockProfileUI();
-            showToast("Вы вышли из профиля.");
+            showToast("Вы вышли из учетной записи.");
         });
 
         // ================= ЛОГИКА ОКНА АВТОРИЗАЦИИ =================
@@ -1246,9 +1541,7 @@
             e.preventDefault();
             const username = document.getElementById('regName').value;
             const email = document.getElementById('regEmail').value;
-            const password = document.getElementById('regPassword').value;
 
-            // Имитация записи нового юзера
             const newUser = {
                 username: username,
                 email: email,
@@ -1256,7 +1549,9 @@
                 seed: "agent",
                 level: 1,
                 matches: 0,
-                winrate: "0%"
+                winrate: "0%",
+                bio: "Новый агент подразделения NEO_STRIKE.",
+                customAvatar: null
             };
 
             localStorage.setItem('neo_user', JSON.stringify(newUser));
@@ -1271,7 +1566,6 @@
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
 
-            // Имитируем успешный вход с базовыми параметрами
             const loggedInUser = {
                 username: "AGENT_NEO",
                 email: email,
@@ -1279,7 +1573,9 @@
                 seed: "cypher",
                 level: 15,
                 matches: 231,
-                winrate: "64%"
+                winrate: "64%",
+                bio: "Охотник за головами. Специализируюсь на скрытых операциях в секторе B.",
+                customAvatar: null
             };
 
             localStorage.setItem('neo_user', JSON.stringify(loggedInUser));
@@ -1288,6 +1584,14 @@
             authModal.classList.remove('active');
             showToast("Авторизация пройдена!");
         });
+
+        // ================= ПРИГЛАШЕНИЕ ДРУЗЕЙ В ОТРЯД =================
+        function inviteFriend(name) {
+            showToast(`Приглашение отправлено игроку ${name}...`);
+            setTimeout(() => {
+                showToast(`Игрок ${name} присоединился к вашему лобби!`);
+            }, 2500);
+        }
 
         // ================= ИМИТАЦИЯ ЗАГРУЗКИ ИГРЫ =================
         const downloadModal = document.getElementById('downloadModal');
@@ -1352,7 +1656,7 @@
             });
         });
 
-        // Инициализация
+        // Инициализация при загрузке страницы
         checkAuth();
     </script>
 </body>
