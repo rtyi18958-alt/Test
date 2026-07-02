@@ -604,6 +604,9 @@
         /* Друзья онлайн */
         .friends-card {
             padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .friends-title {
@@ -626,6 +629,21 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            max-height: 280px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        /* Стилизация скроллбара списка друзей */
+        .friends-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .friends-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .friends-list::-webkit-scrollbar-thumb {
+            background: var(--border-glass);
+            border-radius: 2px;
         }
 
         .friend-item {
@@ -681,11 +699,20 @@
         .friend-name {
             font-size: 0.85rem;
             font-weight: 600;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .friend-status-text {
             font-size: 0.75rem;
             color: var(--text-muted);
+        }
+
+        .friends-actions {
+            display: flex;
+            gap: 6px;
         }
 
         .friend-action-btn {
@@ -707,6 +734,40 @@
             color: #fff;
             background: var(--neon-red);
             box-shadow: 0 0 8px var(--neon-red);
+        }
+
+        /* Интеграция формы добавления друга */
+        .add-friend-panel {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .add-friend-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .add-friend-control {
+            display: flex;
+            gap: 8px;
+        }
+
+        .add-friend-control input {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+        }
+
+        .btn-add-friend {
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            border-radius: 8px;
+            flex-shrink: 0;
         }
 
         /* ================= СИСТЕМНЫЕ ТРЕБОВАНИЯ ================= */
@@ -1141,60 +1202,25 @@
 
                 <!-- Друзья онлайн (КОЛОНКА 3) -->
                 <div class="glass-panel friends-card" style="border: none; background: rgba(0,0,0,0.2);">
-                    <div class="friends-title">
-                        <i class="fa-solid fa-circle"></i>
-                        <span>Друзья онлайн</span>
+                    <div>
+                        <div class="friends-title">
+                            <i class="fa-solid fa-circle"></i>
+                            <span>Друзья онлайн</span>
+                        </div>
+
+                        <!-- Контейнер списка друзей -->
+                        <div class="friends-list" id="friendsList">
+                            <!-- Контент генерируется через JS -->
+                        </div>
                     </div>
 
-                    <div class="friends-list" id="friendsList">
-                        <!-- Друг 1 -->
-                        <div class="friend-item">
-                            <div class="friend-meta">
-                                <div class="friend-avatar">
-                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=viper&backgroundColor=070709">
-                                    <div class="friend-status-dot online"></div>
-                                </div>
-                                <div>
-                                    <div class="friend-name">VIPER_STRIKE</div>
-                                    <div class="friend-status-text">В матче (12м)</div>
-                                </div>
-                            </div>
-                            <button class="friend-action-btn" title="Пригласить в отряд" onclick="inviteFriend('VIPER_STRIKE')">
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-                        
-                        <!-- Друг 2 -->
-                        <div class="friend-item">
-                            <div class="friend-meta">
-                                <div class="friend-avatar">
-                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=cyber&backgroundColor=070709">
-                                    <div class="friend-status-dot online"></div>
-                                </div>
-                                <div>
-                                    <div class="friend-name">CyberGhost</div>
-                                    <div class="friend-status-text">В лобби</div>
-                                </div>
-                            </div>
-                            <button class="friend-action-btn" title="Пригласить в отряд" onclick="inviteFriend('CyberGhost')">
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-
-                        <!-- Друг 3 -->
-                        <div class="friend-item">
-                            <div class="friend-meta">
-                                <div class="friend-avatar">
-                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=rex&backgroundColor=070709">
-                                    <div class="friend-status-dot away"></div>
-                                </div>
-                                <div>
-                                    <div class="friend-name">N3ON_R3X</div>
-                                    <div class="friend-status-text">AFK (3м)</div>
-                                </div>
-                            </div>
-                            <button class="friend-action-btn" title="Пригласить в отряд" onclick="inviteFriend('N3ON_R3X')">
-                                <i class="fa-solid fa-plus"></i>
+                    <!-- Форма добавления друга -->
+                    <div class="add-friend-panel">
+                        <label class="add-friend-label">Добавить друга по нику</label>
+                        <div class="add-friend-control">
+                            <input type="text" id="addFriendInput" placeholder="Введите никнейм..." required>
+                            <button type="button" class="btn-neon btn-add-friend" id="addFriendBtn" title="Добавить">
+                                <i class="fa-solid fa-user-plus"></i>
                             </button>
                         </div>
                     </div>
@@ -1365,14 +1391,25 @@
             return name.substring(0, 2) + '***' + name.substring(name.length - 1) + '@' + domain;
         }
 
-        // ================= СИСТЕМА ПРОФИЛЕЙ (ХРАНИЛИЩЕ) =================
+        // ================= СИСТЕМА ПРОФИЛЕЙ И ДРУЗЕЙ =================
         let currentUser = null;
+
+        // Изначальный набор друзей, если у пользователя еще нет сохраненных записей
+        const defaultFriendsList = [
+            { name: "VIPER_STRIKE", statusText: "В матче (12м)", statusClass: "online", seed: "viper" },
+            { name: "CyberGhost", statusText: "В лобби", statusClass: "online", seed: "cyber" },
+            { name: "N3ON_R3X", statusText: "AFK (3м)", statusClass: "away", seed: "rex" }
+        ];
 
         // Проверка авторизации
         function checkAuth() {
             const savedUser = localStorage.getItem('neo_user');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
+                // Инициализируем массив друзей пользователя, если его нет
+                if (!currentUser.friends) {
+                    currentUser.friends = [...defaultFriendsList];
+                }
                 unlockProfileUI();
             } else {
                 lockProfileUI();
@@ -1390,6 +1427,7 @@
                 <button class="btn-neon btn-neon-small download-trigger">Скачать</button>
             `;
             initAuthTriggers();
+            renderFriendsUI([]);
         }
 
         function unlockProfileUI() {
@@ -1431,6 +1469,9 @@
                 }
             });
 
+            // Обновление списка друзей на панели
+            renderFriendsUI(currentUser.friends);
+
             // Обновление шапки сайта
             const headerAvatarSrc = currentUser.customAvatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${currentUser.seed}&backgroundColor=070709`;
             document.getElementById('headerAuthContainer').innerHTML = `
@@ -1440,6 +1481,140 @@
                 </div>
                 <button class="btn-neon btn-neon-small download-trigger">Скачать</button>
             `;
+        }
+
+        // Функция отрисовки друзей в интерфейсе
+        function renderFriendsUI(friends) {
+            const listContainer = document.getElementById('friendsList');
+            listContainer.innerHTML = '';
+
+            // Если пользователь заблокирован, показываем демонстрационный список
+            const activeList = currentUser ? friends : defaultFriendsList;
+
+            if (activeList.length === 0) {
+                listContainer.innerHTML = `
+                    <div style="text-align: center; padding: 20px 0; color: var(--text-muted); font-size: 0.85rem;">
+                        <i class="fa-solid fa-user-group-slash" style="font-size: 1.5rem; margin-bottom: 8px; display: block; color: rgba(255,255,255,0.1);"></i>
+                        Список друзей пуст.
+                    </div>
+                `;
+                return;
+            }
+
+            activeList.forEach((friend, idx) => {
+                const friendItem = document.createElement('div');
+                friendItem.className = 'friend-item';
+                
+                friendItem.innerHTML = `
+                    <div class="friend-meta">
+                        <div class="friend-avatar">
+                            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=${friend.seed}&backgroundColor=070709">
+                            <div class="friend-status-dot ${friend.statusClass}"></div>
+                        </div>
+                        <div>
+                            <div class="friend-name" title="${friend.name}">${friend.name}</div>
+                            <div class="friend-status-text">${friend.statusText}</div>
+                        </div>
+                    </div>
+                    <div class="friends-actions">
+                        <button class="friend-action-btn" title="Пригласить в отряд" onclick="inviteFriend('${friend.name}')">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                        ${currentUser ? `
+                            <button class="friend-action-btn" title="Удалить из друзей" onclick="removeFriend(${idx})" style="border-color: rgba(255,7,58,0.15);">
+                                <i class="fa-solid fa-user-minus" style="color: var(--neon-red); font-size: 0.75rem;"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+                listContainer.appendChild(friendItem);
+            });
+        }
+
+        // Удаление друга
+        window.removeFriend = function(index) {
+            if (!currentUser || !currentUser.friends) return;
+            const removedName = currentUser.friends[index].name;
+            currentUser.friends.splice(index, 1);
+            localStorage.setItem('neo_user', JSON.stringify(currentUser));
+            unlockProfileUI();
+            showToast(`Игрок ${removedName} удален из друзей.`);
+        };
+
+        // Добавление друга по никнейму
+        const addFriendBtn = document.getElementById('addFriendBtn');
+        const addFriendInput = document.getElementById('addFriendInput');
+
+        addFriendBtn.addEventListener('click', handleAddFriend);
+        addFriendInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleAddFriend();
+        });
+
+        function handleAddFriend() {
+            if (!currentUser) {
+                showToast("Необходимо войти в аккаунт!", true);
+                return;
+            }
+
+            const rawName = addFriendInput.value.trim();
+            if (!rawName) {
+                showToast("Введите корректный никнейм!", true);
+                return;
+            }
+
+            // Ограничение длины никнейма
+            if (rawName.length > 15) {
+                showToast("Слишком длинный никнейм (макс. 15 симв.)", true);
+                return;
+            }
+
+            // Проверка на добавление самого себя
+            if (rawName.toLowerCase() === currentUser.username.toLowerCase()) {
+                showToast("Вы не можете добавить себя в друзья!", true);
+                return;
+            }
+
+            // Проверка дубликатов
+            const isDuplicate = currentUser.friends.some(f => f.name.toLowerCase() === rawName.toLowerCase());
+            if (isDuplicate) {
+                showToast("Этот игрок уже есть в списке ваших друзей!", true);
+                return;
+            }
+
+            // Анимация отправки запроса
+            addFriendBtn.disabled = true;
+            addFriendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            addFriendInput.disabled = true;
+
+            setTimeout(() => {
+                const statusTypes = [
+                    { text: "В лобби", css: "online" },
+                    { text: "В матче (1м)", css: "online" },
+                    { text: "AFK", css: "away" }
+                ];
+                const randomStatus = statusTypes[Math.floor(Math.random() * statusTypes.length)];
+
+                const cleanSeed = rawName.replace(/[^a-zA-Z0-9]/g, '');
+
+                const newFriend = {
+                    name: rawName,
+                    statusText: randomStatus.text,
+                    statusClass: randomStatus.css,
+                    seed: cleanSeed || "custom_friend"
+                };
+
+                currentUser.friends.push(newFriend);
+                localStorage.setItem('neo_user', JSON.stringify(currentUser));
+                unlockProfileUI();
+
+                showToast(`Игрок ${rawName} добавлен в список друзей!`);
+                
+                // Очистка полей ввода
+                addFriendInput.value = '';
+                addFriendBtn.disabled = false;
+                addFriendBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i>';
+                addFriendInput.disabled = false;
+            }, 1200);
         }
 
         // Выбор предустановленной аватарки
@@ -1551,7 +1726,8 @@
                 matches: 0,
                 winrate: "0%",
                 bio: "Новый агент подразделения NEO_STRIKE.",
-                customAvatar: null
+                customAvatar: null,
+                friends: [...defaultFriendsList] // Заполняем дефолтными друзьями при первой реге
             };
 
             localStorage.setItem('neo_user', JSON.stringify(newUser));
@@ -1575,7 +1751,8 @@
                 matches: 231,
                 winrate: "64%",
                 bio: "Охотник за головами. Специализируюсь на скрытых операциях в секторе B.",
-                customAvatar: null
+                customAvatar: null,
+                friends: [...defaultFriendsList] // Наполняем дефолтными друзьями
             };
 
             localStorage.setItem('neo_user', JSON.stringify(loggedInUser));
@@ -1586,12 +1763,12 @@
         });
 
         // ================= ПРИГЛАШЕНИЕ ДРУЗЕЙ В ОТРЯД =================
-        function inviteFriend(name) {
+        window.inviteFriend = function(name) {
             showToast(`Приглашение отправлено игроку ${name}...`);
             setTimeout(() => {
                 showToast(`Игрок ${name} присоединился к вашему лобби!`);
             }, 2500);
-        }
+        };
 
         // ================= ИМИТАЦИЯ ЗАГРУЗКИ ИГРЫ =================
         const downloadModal = document.getElementById('downloadModal');
