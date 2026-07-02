@@ -666,6 +666,12 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            cursor: pointer;
+        }
+
+        .friend-meta:hover .friend-name {
+            color: var(--neon-red);
+            text-decoration: underline;
         }
 
         .friend-avatar {
@@ -703,6 +709,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            transition: color var(--transition-speed);
         }
 
         .friend-status-text {
@@ -910,6 +917,13 @@
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
             flex-shrink: 0;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+        }
+
+        .chat-msg-avatar:hover {
+            transform: scale(1.1);
+            border-color: var(--neon-red);
         }
 
         .chat-msg-avatar img {
@@ -932,6 +946,13 @@
             font-size: 0.75rem;
             font-weight: 700;
             color: var(--text-muted);
+            cursor: pointer;
+            transition: color var(--transition-speed);
+        }
+
+        .chat-msg-sender:hover {
+            color: var(--neon-red);
+            text-decoration: underline;
         }
 
         .chat-bubble.self .chat-msg-sender {
@@ -1132,65 +1153,6 @@
             background-color: var(--neon-red);
             box-shadow: 0 0 10px var(--neon-red);
             transition: width 0.15s linear;
-        }
-
-        /* Уведомление на экране */
-        .toast {
-            position: fixed;
-            top: 100px;
-            bottom: auto;
-            right: -300px;
-            background: rgba(18, 18, 24, 0.9);
-            border-left: 4px solid var(--neon-red);
-            padding: 16px 24px;
-            border-radius: 4px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .toast.show {
-            right: 24px;
-            bottom: auto;
-        }
-
-        /* Подвал */
-        footer {
-            background-color: #040406;
-            border-top: 1px solid rgba(255, 7, 58, 0.1);
-            padding: 40px 0;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 24px;
-            text-align: center;
-        }
-
-        .socials { display: flex; gap: 20px; }
-
-        .social-link {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 1.2rem;
-            transition: all var(--transition-speed);
-        }
-
-        .social-link:hover {
-            color: var(--neon-red);
-            border-color: var(--border-glass-hover);
-            transform: translateY(-3px);
         }
 
         /* Адаптивность */
@@ -1554,6 +1516,42 @@
         </div>
     </div>
 
+    <!-- МОДАЛКА: ПРОСМОТР ЧУЖОГО ПРОФИЛЯ -->
+    <div class="modal-overlay" id="publicProfileModal">
+        <div class="glass-panel modal-content" style="max-width: 400px; text-align: center;">
+            <button class="modal-close" id="pubProfileCloseBtn">&times;</button>
+            <div class="profile-avatar-container" style="margin: 0 auto 20px auto; width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 3px solid var(--neon-red); box-shadow: 0 0 15px var(--neon-red-glow);">
+                <img src="" alt="Аватар Агента" id="pubAvatarImg" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h3 style="font-family: var(--font-display); margin-bottom: 6px; font-size: 1.6rem;" id="pubUsername">USER</h3>
+            <div class="profile-rank" style="display: inline-block; margin-bottom: 16px;" id="pubFaction">Штурмовик</div>
+            
+            <!-- Биография чужого профиля -->
+            <p class="profile-bio" style="margin-bottom: 24px;" id="pubBio">«Описание»</p>
+
+            <div class="stats-grid" style="margin-bottom: 20px;">
+                <div class="stat-item">
+                    <div class="stat-val" id="pubLevel">1</div>
+                    <div class="stat-lbl">Уровень</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val" id="pubMatches">0</div>
+                    <div class="stat-lbl">Матчи</div>
+                </div>
+            </div>
+            <div class="stats-grid" style="margin-bottom: 24px;">
+                <div class="stat-item" style="grid-column: span 2;">
+                    <div class="stat-val" id="pubWinrate">50%</div>
+                    <div class="stat-lbl">Процент побед</div>
+                </div>
+            </div>
+
+            <button class="btn-neon btn-neon-small" id="pubInviteBtn" style="width: 100%;">
+                <i class="fa-solid fa-gamepad" style="margin-right: 8px;"></i>Пригласить в лобби
+            </button>
+        </div>
+    </div>
+
     <!-- Всплывающий Тост (Уведомление) -->
     <div class="toast" id="toast">
         <i class="fa-solid fa-circle-check" style="color: var(--neon-red);" id="toastIcon"></i>
@@ -1641,11 +1639,41 @@
         // ================= СИСТЕМА ПРОФИЛЕЙ И ДРУЗЕЙ =================
         let currentUser = null;
 
-        // Изначальный набор друзей, если у пользователя еще нет сохраненных записей
+        // Изначальный набор друзей с полными анкетами профилей
         const defaultFriendsList = [
-            { name: "VIPER_STRIKE", statusText: "В матче (12м)", statusClass: "online", seed: "viper" },
-            { name: "CyberGhost", statusText: "В лобби", statusClass: "online", seed: "cyber" },
-            { name: "N3ON_R3X", statusText: "AFK (3м)", statusClass: "away", seed: "rex" }
+            { 
+                name: "VIPER_STRIKE", 
+                statusText: "В матче (12м)", 
+                statusClass: "online", 
+                seed: "viper",
+                faction: "Разведчик",
+                level: 42,
+                matches: 890,
+                winrate: "58%",
+                bio: "Точные выстрелы — моя визитная карточка. Не стой на линии огня."
+            },
+            { 
+                name: "CyberGhost", 
+                statusText: "В лобби", 
+                statusClass: "online", 
+                seed: "cyber",
+                faction: "Техник",
+                level: 29,
+                matches: 512,
+                winrate: "52%",
+                bio: "Дроны взломаны, периметр под контролем. Наслаждайтесь шоу."
+            },
+            { 
+                name: "N3ON_R3X", 
+                statusText: "AFK (3м)", 
+                statusClass: "away", 
+                seed: "rex",
+                faction: "Штурмовик",
+                level: 56,
+                matches: 1205,
+                winrate: "63%",
+                bio: "Врываюсь первым, вопросов не задаю. Увидимся на точке возрождения."
+            }
         ];
 
         // Проверка авторизации
@@ -1735,7 +1763,6 @@
             const listContainer = document.getElementById('friendsList');
             listContainer.innerHTML = '';
 
-            // Если пользователь заблокирован, показываем демонстрационный список
             const activeList = currentUser ? friends : defaultFriendsList;
 
             if (activeList.length === 0) {
@@ -1752,10 +1779,12 @@
                 const friendItem = document.createElement('div');
                 friendItem.className = 'friend-item';
                 
+                const friendAvatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${friend.seed}&backgroundColor=070709`;
+                
                 friendItem.innerHTML = `
-                    <div class="friend-meta">
+                    <div class="friend-meta" onclick="viewPublicProfile('${friend.name}')" title="Посмотреть профиль">
                         <div class="friend-avatar">
-                            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=${friend.seed}&backgroundColor=070709">
+                            <img src="${friendAvatarUrl}">
                             <div class="friend-status-dot ${friend.statusClass}"></div>
                         </div>
                         <div>
@@ -1809,26 +1838,22 @@
                 return;
             }
 
-            // Ограничение длины никнейма
             if (rawName.length > 15) {
                 showToast("Слишком длинный никнейм (макс. 15 симв.)", true);
                 return;
             }
 
-            // Проверка на добавление самого себя
             if (rawName.toLowerCase() === currentUser.username.toLowerCase()) {
                 showToast("Вы не можете добавить себя в друзья!", true);
                 return;
             }
 
-            // Проверка дубликатов
             const isDuplicate = currentUser.friends.some(f => f.name.toLowerCase() === rawName.toLowerCase());
             if (isDuplicate) {
                 showToast("Этот игрок уже есть в списке ваших друзей!", true);
                 return;
             }
 
-            // Анимация отправки запроса
             addFriendBtn.disabled = true;
             addFriendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
             addFriendInput.disabled = true;
@@ -1841,13 +1866,26 @@
                 ];
                 const randomStatus = statusTypes[Math.floor(Math.random() * statusTypes.length)];
 
+                // Набор случайных классов и био для нового друга
+                const factions = ["Штурмовик", "Техник", "Разведчик"];
+                const bios = [
+                    "Рекрут боевой зоны. Люблю штурмовые винтовки.",
+                    "Взламываю код, зачищаю сектора. Всегда готов к бою.",
+                    "Охочусь в тени мегаполиса. Давай сыграем."
+                ];
+
                 const cleanSeed = rawName.replace(/[^a-zA-Z0-9]/g, '');
 
                 const newFriend = {
                     name: rawName,
                     statusText: randomStatus.text,
                     statusClass: randomStatus.css,
-                    seed: cleanSeed || "custom_friend"
+                    seed: cleanSeed || "custom_friend",
+                    faction: factions[Math.floor(Math.random() * factions.length)],
+                    level: Math.floor(Math.random() * 30) + 1,
+                    matches: Math.floor(Math.random() * 200) + 5,
+                    winrate: (Math.floor(Math.random() * 25) + 45) + "%",
+                    bio: bios[Math.floor(Math.random() * bios.length)]
                 };
 
                 currentUser.friends.push(newFriend);
@@ -1856,7 +1894,6 @@
 
                 showToast(`Игрок ${rawName} добавлен в список друзей!`);
                 
-                // Очистка полей ввода
                 addFriendInput.value = '';
                 addFriendBtn.disabled = false;
                 addFriendBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i>';
@@ -1864,7 +1901,197 @@
             }, 1200);
         }
 
-        // Выбор предустановленной аватарки
+        // ================= СИСТЕМА ПРОСМОТРА ЧУЖОГО ПРОФИЛЯ =================
+        const pubModal = document.getElementById('publicProfileModal');
+        const pubCloseBtn = document.getElementById('pubProfileCloseBtn');
+        const pubInviteBtn = document.getElementById('pubInviteBtn');
+        let currentViewingUser = "";
+
+        window.viewPublicProfile = function(name) {
+            let targetProfile = null;
+
+            // Если кликнули на себя
+            if (currentUser && name.toLowerCase() === currentUser.username.toLowerCase()) {
+                targetProfile = {
+                    name: currentUser.username,
+                    faction: currentUser.faction,
+                    bio: currentUser.bio || "Описание профиля не заполнено.",
+                    level: currentUser.level || 12,
+                    matches: currentUser.matches || 142,
+                    winrate: currentUser.winrate || "61%",
+                    customAvatar: currentUser.customAvatar,
+                    seed: currentUser.seed
+                };
+            } else {
+                // Ищем в списке друзей
+                const list = currentUser ? currentUser.friends : defaultFriendsList;
+                targetProfile = list.find(f => f.name.toLowerCase() === name.toLowerCase());
+            }
+
+            // Если профиль не найден (например, системное сообщение), генерируем временный
+            if (!targetProfile) {
+                targetProfile = {
+                    name: name,
+                    faction: "Наемник",
+                    bio: "Засекреченный участник сети NEO_STRIKE.",
+                    level: Math.floor(Math.random() * 40) + 10,
+                    matches: Math.floor(Math.random() * 300) + 50,
+                    winrate: (Math.floor(Math.random() * 20) + 48) + "%",
+                    seed: name.replace(/[^a-zA-Z0-9]/g, '') || "guest"
+                };
+            }
+
+            // Наполнение модалки данными
+            document.getElementById('pubUsername').textContent = targetProfile.name;
+            document.getElementById('pubFaction').textContent = targetProfile.faction;
+            document.getElementById('pubBio').textContent = `«${targetProfile.bio}»`;
+            document.getElementById('pubLevel').textContent = targetProfile.level;
+            document.getElementById('pubMatches').textContent = targetProfile.matches;
+            document.getElementById('pubWinrate').textContent = targetProfile.winrate;
+
+            const avatarImg = document.getElementById('pubAvatarImg');
+            if (targetProfile.customAvatar) {
+                avatarImg.src = targetProfile.customAvatar;
+            } else {
+                avatarImg.src = `https://api.dicebear.com/7.x/bottts/svg?seed=${targetProfile.seed}&backgroundColor=070709`;
+            }
+
+            currentViewingUser = targetProfile.name;
+            pubModal.classList.add('active');
+        };
+
+        pubCloseBtn.addEventListener('click', () => {
+            pubModal.classList.remove('active');
+        });
+
+        pubInviteBtn.addEventListener('click', () => {
+            pubModal.classList.remove('active');
+            inviteFriend(currentViewingUser);
+        });
+
+        // Закрытие модального окна по фону
+        pubModal.addEventListener('click', (e) => {
+            if (e.target === pubModal) {
+                pubModal.classList.remove('active');
+            }
+        });
+
+
+        // ================= СИСТЕМА ЧАТА (КЛИЕНТ) =================
+        const chatWindow = document.getElementById('chatWindow');
+        const chatToggleBtn = document.getElementById('chatToggleBtn');
+        const chatMinimizeBtn = document.getElementById('chatMinimizeBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatForm = document.getElementById('chatForm');
+        const chatInput = document.getElementById('chatInput');
+        const chatBadge = document.getElementById('chatBadge');
+
+        let unreadCount = 0;
+        let isChatOpen = false;
+
+        // Открытие/закрытие чата
+        chatToggleBtn.addEventListener('click', () => {
+            isChatOpen = !isChatOpen;
+            if (isChatOpen) {
+                chatWindow.classList.add('active');
+                unreadCount = 0;
+                chatBadge.style.display = 'none';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } else {
+                chatWindow.classList.remove('active');
+            }
+        });
+
+        chatMinimizeBtn.addEventListener('click', () => {
+            isChatOpen = false;
+            chatWindow.classList.remove('active');
+        });
+
+        // Функция добавления сообщения в DOM чата
+        function appendChatMessage(sender, text, isSelf = false, customAvatar = null, seed = "agent") {
+            const bubble = document.createElement('div');
+            bubble.className = `chat-bubble ${isSelf ? 'self' : ''}`;
+
+            const avatarSrc = customAvatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}&backgroundColor=070709`;
+
+            bubble.innerHTML = `
+                <div class="chat-msg-avatar" onclick="viewPublicProfile('${sender}')" title="Посмотреть профиль">
+                    <img src="${avatarSrc}" alt="Avatar">
+                </div>
+                <div class="chat-msg-content">
+                    <span class="chat-msg-sender" onclick="viewPublicProfile('${sender}')">${sender}</span>
+                    <div class="chat-msg-text">${text}</div>
+                </div>
+            `;
+
+            chatMessages.appendChild(bubble);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Если чат закрыт, увеличиваем счетчик непрочитанных
+            if (!isChatOpen) {
+                unreadCount++;
+                chatBadge.textContent = unreadCount;
+                chatBadge.style.display = 'block';
+            }
+        }
+
+        // Обработка отправки вашего сообщения
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const messageText = chatInput.value.trim();
+            if (!messageText) return;
+
+            const senderName = currentUser ? currentUser.username : "AGENT_GUEST";
+            const avatar = currentUser ? currentUser.customAvatar : null;
+            const seed = currentUser ? currentUser.seed : "agent";
+
+            appendChatMessage(senderName, messageText, true, avatar, seed);
+            chatInput.value = '';
+        });
+
+        // ================= СИМУЛЯЦИЯ ОНЛАЙН ЧАТА ДРУЗЕЙ =================
+        const simulationMessages = [
+            "Го в рейтинговую лобби? Нужен сильный штурмовик.",
+            "Сегодня на серверах пинг просто шикарный, тащу каждый раунд!",
+            "Как думаете, какой билд лучше собирать на техника?",
+            "Ребят, оцените мой аватар в профиле)",
+            "Вчера до трех ночи играли, это было мощно.",
+            "Ищу напарников для выполнения контрактов, пишите.",
+            "Кстати, зацените концепт новой карты, выглядит круто.",
+            "Я на позиции. Кто прикроет?",
+            "Респект тому штурмовику, который затащил прошлую игру!",
+            "Ураганный геймплей на новой карте, просто огонь."
+        ];
+
+        // Запуск имитации чата каждые 12 секунд
+        setInterval(() => {
+            const list = currentUser ? currentUser.friends : defaultFriendsList;
+            if (list.length === 0) return;
+
+            // Выбираем случайного друга и случайное сообщение
+            const randomFriend = list[Math.floor(Math.random() * list.length)];
+            const randomText = simulationMessages[Math.floor(Math.random() * simulationMessages.length)];
+
+            appendChatMessage(
+                randomFriend.name, 
+                randomText, 
+                false, 
+                null, 
+                randomFriend.seed
+            );
+
+        }, 12000);
+
+        // Наполнение чата парой стартовых реплик при загрузке
+        setTimeout(() => {
+            appendChatMessage("VIPER_STRIKE", "Приветствую на защищенном канале. Кто в игре?", false, null, "viper");
+        }, 1500);
+        setTimeout(() => {
+            appendChatMessage("CyberGhost", "Я в лобби, кастомизирую параметры дрона.", false, null, "cyber");
+        }, 4000);
+
+
+        // ================= ВЫБОР ПРЕДУСТАНОВЛЕННОЙ АВАТАРКИ =================
         document.querySelectorAll('.avatar-option').forEach(opt => {
             opt.addEventListener('click', () => {
                 document.querySelectorAll('.avatar-option').forEach(o => o.classList.remove('selected'));
@@ -1872,7 +2099,7 @@
                 
                 if (currentUser) {
                     currentUser.seed = opt.dataset.seed;
-                    currentUser.customAvatar = null; // сбрасываем кастомную при выборе стандартной
+                    currentUser.customAvatar = null; 
                 }
             });
         });
@@ -1894,12 +2121,10 @@
                     if (currentUser) {
                         currentUser.customAvatar = base64Image;
                         currentUser.seed = "custom";
-                        // Снимаем выделение со стандартных аватарок
                         document.querySelectorAll('.avatar-option').forEach(o => o.classList.remove('selected'));
                         
-                        // Временное превью
                         document.getElementById('profileAvatarImg').src = base64Image;
-                        showToast("Изображение загружено. Не забудьте сохранить изменения!");
+                        showToast("Изображение загружено. Сохраните изменения!");
                     }
                 };
                 reader.readAsDataURL(file);
@@ -1974,7 +2199,7 @@
                 winrate: "0%",
                 bio: "Новый агент подразделения NEO_STRIKE.",
                 customAvatar: null,
-                friends: [...defaultFriendsList] // Заполняем дефолтными друзьями при первой реге
+                friends: [...defaultFriendsList] 
             };
 
             localStorage.setItem('neo_user', JSON.stringify(newUser));
@@ -1999,7 +2224,7 @@
                 winrate: "64%",
                 bio: "Охотник за головами. Специализируюсь на скрытых операциях в секторе B.",
                 customAvatar: null,
-                friends: [...defaultFriendsList] // Наполняем дефолтными друзьями
+                friends: [...defaultFriendsList] 
             };
 
             localStorage.setItem('neo_user', JSON.stringify(loggedInUser));
@@ -2008,14 +2233,6 @@
             authModal.classList.remove('active');
             showToast("Авторизация пройдена!");
         });
-
-        // ================= ПРИГЛАШЕНИЕ ДРУЗЕЙ В ОТРЯД =================
-        window.inviteFriend = function(name) {
-            showToast(`Приглашение отправлено игроку ${name}...`);
-            setTimeout(() => {
-                showToast(`Игрок ${name} присоединился к вашему лобби!`);
-            }, 2500);
-        };
 
         // ================= ИМИТАЦИЯ ЗАГРУЗКИ ИГРЫ =================
         const downloadModal = document.getElementById('downloadModal');
@@ -2085,4 +2302,3 @@
     </script>
 </body>
 </html>
-теперь сделай что-бы были выдны аватарки других людей и онлайн что бы можно было переписиватся и добавь чат
